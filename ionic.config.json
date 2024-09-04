@@ -1,0 +1,7 @@
+{
+  "name": "ionicCraft",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
