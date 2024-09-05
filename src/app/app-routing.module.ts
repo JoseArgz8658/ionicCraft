@@ -10,7 +10,11 @@ const routes: Routes = [
     path: '',
     redirectTo: 'home',
     pathMatch: 'full'
+  },  {
+    path: 'biomas',
+    loadChildren: () => import('./biomas/biomas.module').then( m => m.BiomasPageModule)
   },
+
 ];
 
 @NgModule({

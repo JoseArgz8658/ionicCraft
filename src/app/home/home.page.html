@@ -1,20 +1,72 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Blank
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
+<ion-menu contentId="main-content">
+  <ion-header>
     <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
+      <img src="assets/icon/Fondo.jpg" alt="Fondo">
+      <ion-title class="centrar">Menú de ionicCraft</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content color="light">
+    <ion-list [inset]="true">
+      <ion-item>
+        <ion-button fill="clear">
+          <ion-label>Perfil</ion-label>
+        </ion-button>
+      </ion-item>
+      <ion-item>
+        <ion-button fill="clear">
+          <ion-label>Inicio</ion-label>
+        </ion-button>
+      </ion-item>
+      <ion-item>
+        <ion-button fill="clear">
+          <ion-label>Biomas</ion-label>
+        </ion-button>
+      </ion-item>
+      <ion-item>
+        <ion-button fill="clear">
+          <ion-label>Configuraciones</ion-label>
+        </ion-button>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-menu>
+
+<div class="ion-page" id="main-content">
+  <ion-header [translucent]="true">
+    <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-menu-button></ion-menu-button>
+      </ion-buttons>
+      <ion-title>ionicCraft</ion-title>
     </ion-toolbar>
   </ion-header>
 
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
-  </div>
-</ion-content>
+  <ion-content [fullscreen]="true">
+    <ion-header collapse="condense">
+      <ion-toolbar>
+        <ion-title size="large">ionicCraft</ion-title>
+      </ion-toolbar>
+    </ion-header>
+
+    <div id="container">
+      <div id="introduction">
+
+        <ion-searchbar placeholder="Busca en IonicCraft"></ion-searchbar>
+        <img src="assets/icon/ionicCraft_logo.png" alt="Logo" width="150px">
+
+        <h1>Bienvenido a ionicCraft</h1>
+
+        <p>Con <strong>ionicCraft</strong>, podrás:</p>
+        <ul>
+          <li>Consultar información detallada sobre cada bioma del juego.</li>
+          <li>Explorar una base de datos completa de mobs, desde los más comunes hasta los más raros.</li>
+          <li>Descubrir todos los bloques y objetos, junto con sus usos y características.</li>
+        </ul>
+        <p>
+          Sumérgete en la experiencia de Minecraft con <strong>ionicCraft</strong>, tu guía definitiva para dominar el mundo cúbico. ¡Empieza tu aventura hoy!
+        </p>
+      </div>
+    </div>
+
+  </ion-content>
+</div>
