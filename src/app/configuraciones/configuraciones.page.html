@@ -49,7 +49,22 @@
       </ion-toolbar>
     </ion-header>
 
-    
+    <ion-card>
+      <ion-card-title style="padding: 10px;">Cambiar modo</ion-card-title>
+      <ion-card>
+        <ion-item>
+          <ion-toggle [(ngModel)]="paletteToggle" (ionChange)="toggleChange($event)" justify="space-between">
+            Dark Modo
+          </ion-toggle>
+        </ion-item>
+      </ion-card>
+    </ion-card>
+    <ion-card>
+      <ion-card-title style="padding: 10px;">Futuros Cambios</ion-card-title>
+      <ion-card-header>
+        <ion-label>Proximamente</ion-label>
+      </ion-card-header>
+    </ion-card><br>
 
   </ion-content>
 </div>
