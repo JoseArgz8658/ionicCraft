@@ -49,31 +49,10 @@
       </ion-toolbar>
     </ion-header>
 
-    <ion-card size="6" size-md="4" size-lg="2">
-      <img alt="bioma_abedular" src="assets/icon/bioma_abedular.jpg" />
+    <ion-card *ngFor="let bioma of biomas" (click)="goBiomaContenido(bioma)">
+      <img [src]="bioma.imagen" [alt]="bioma.nombre" />
       <ion-card-header>
-        <ion-card-title>Abedular</ion-card-title>
-      </ion-card-header>
-    </ion-card>
-
-    <ion-card size="6" size-md="4" size-lg="2">
-      <img alt="bioma_abedular" src="assets/icon/bioma_bosque_oscuro.jpg" />
-      <ion-card-header>
-        <ion-card-title>Bosque Oscuro</ion-card-title>
-      </ion-card-header>
-    </ion-card>
-
-    <ion-card size="6" size-md="4" size-lg="2">
-      <img alt="bioma_abedular" src="assets/icon/bioma_desierto.jpg" />
-      <ion-card-header>
-        <ion-card-title>Desierto</ion-card-title>
-      </ion-card-header>
-    </ion-card>
-
-    <ion-card size="6" size-md="4" size-lg="2">
-      <img alt="bioma_abedular" src="assets/icon/bioma_el_end.jpg" />
-      <ion-card-header>
-        <ion-card-title>El End</ion-card-title>
+        <ion-card-title>{{ bioma.nombre }}</ion-card-title>
       </ion-card-header>
     </ion-card>
 

@@ -22,7 +22,8 @@ const routes: Routes = [
   {
     path: 'configuraciones',
     loadChildren: () => import('./configuraciones/configuraciones.module').then( m => m.ConfiguracionesPageModule)
-  },  {
+  },
+  {
     path: 'registro',
     loadChildren: () => import('./registro/registro.module').then( m => m.RegistroPageModule)
   },
@@ -30,7 +31,10 @@ const routes: Routes = [
     path: 'login',
     loadChildren: () => import('./login/login.module').then( m => m.LoginPageModule)
   },
-
+  {
+    path: 'bioma-contenido',
+    loadChildren: () => import('./bioma-contenido/bioma-contenido.module').then( m => m.BiomaContenidoPageModule)
+  },
 
 ];
 
