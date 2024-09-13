@@ -22,7 +22,7 @@ ion-card-content {
 }
 
 h1 {
-    color: rgb(21, 147, 55);
+    color: rgb(2, 163, 2);
     font-weight: bold;
 }
 
@@ -37,8 +37,8 @@ h1 {
 
 .horizontal-scroll {
     display: flex;
-    overflow-x: auto; /* Permite el desplazamiento horizontal si hay más elementos */
-    padding: 10px; /* Espaciado interno opcional */
+    overflow-x: auto;
+    padding: 10px;
 }
 
 .caracteristica-item {
@@ -50,4 +50,17 @@ h1 {
     width: 100px;
     height: auto;
     border-radius: 5px;
+  }
+
+  .card-color-fondo {
+    background-color: rgb(158, 91, 67);
+    color: rgb(0, 0, 0);
+    padding: 10px;
+    margin: 10px;
+    border-radius: 10px;
+  }
+
+  .card-color-fondo-letras {
+    color: rgb(250, 250, 250);
+    background-color: rgb(92, 169, 46);
   }

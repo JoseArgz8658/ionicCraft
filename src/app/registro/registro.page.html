@@ -16,26 +16,42 @@
     </ion-header>
     <br>
     <ion-card>
-      <ion-card-header>
-        <ion-card-title>Registro</ion-card-title>
+      <ion-card-header class="card-color-fondo-letras">
+        <div class="centrar">
+          <h2>Crear Cuenta Fan</h2>
+          <p>Para crear una cuenta en IonicCraft, ingrese sus datos y haga clic en Registrarse.</p>
+        </div>
       </ion-card-header>
-      <ion-card-content>
+      <ion-card-content class="card-color-fondo"><br>
         <form [formGroup]="formularioRegistro" (keyup.enter)="guardar()">
           <ion-item>
-            <ion-label position="floating">Nombre Usuario</ion-label>
-            <ion-input formControlName="name" placeholder="pepe21"></ion-input>
+              <ion-icon name="person-outline"></ion-icon>
+              <ion-input formControlName="nickname" labelPlacement="floating" placeholder="IonicCraft">
+                <div slot="label">Nombre de Usuario</div>
+              </ion-input>
           </ion-item>
           <ion-item>
-            <ion-label position="floating">Contraseña</ion-label>
-            <ion-input formControlName="password" type="password" placeholder="correoduoc2024"></ion-input>
+            <ion-icon name="mail-outline"></ion-icon>
+            <ion-input formControlName="email" labelPlacement="floating" type="email" placeholder="ionic.craft@ionic.cl">
+              <div slot="label">Email</div>
+            </ion-input>
           </ion-item>
           <ion-item>
-            <ion-label position="floating">Confirmar Contraseña</ion-label>
-            <ion-input formControlName="confirmPassword" type="password" placeholder="correoduoc2024"></ion-input>
+            <ion-icon name="lock-closed-outline"></ion-icon>
+            <ion-input formControlName="password" labelPlacement="floating" type="password" placeholder="2024IonicCraft!">
+              <div slot="label">Contraseña</div>
+            </ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-icon name="lock-closed-outline"></ion-icon>
+            <ion-input formControlName="confirmPassword" labelPlacement="floating" type="password" placeholder="2024IonicCraft!">
+              <div slot="label">Confirmar Contraseña</div>
+            </ion-input>
           </ion-item>
         </form>
-        <br>
-        <ion-button (click)="guardar()">Ingresar</ion-button>
+        <div class="centrar">
+          <ion-button (click)="guardar()">Registrarse</ion-button>
+        </div>
       </ion-card-content>
     </ion-card>
 
