@@ -4,36 +4,43 @@
       <ion-buttons slot="start">
         <ion-back-button default-href="#"></ion-back-button>
       </ion-buttons>
-      <ion-title>ionicCraft</ion-title>
+      <ion-title>Iniciar Sesión</ion-title>
     </ion-toolbar>
   </ion-header>
 
   <ion-content [fullscreen]="true">
     <ion-header collapse="condense">
       <ion-toolbar>
-        <ion-title size="large">InicioSesion</ion-title>
+        <ion-title size="large">Iniciar Sesión</ion-title>
       </ion-toolbar>
     </ion-header>
     <br>
     <ion-card>
-      <ion-card-header>
-        <ion-card-title>Inicio Sesion</ion-card-title>
+      <ion-card-header class="card-color-fondo-letras">
+        <div class="centrar">
+          <h2>Bienvenido</h2>
+          <p>Ingrese su usuario u correo y contraseña para iniciar sesión.</p>
+        </div>
       </ion-card-header>
-      <ion-card-content>
-        <form [formGroup]="formularioLogin">
+      <ion-card-content class="card-color-fondo"><br>
+        <form [formGroup]="formularioLogin" (ngSubmit)="iniciarSesion()">
           <ion-item>
-            <ion-label position="floating">Email</ion-label>
-            <ion-input formControlName="email" placeholder="correo@duocuc.cl"></ion-input>
+            <ion-icon name="person-outline"></ion-icon>
+            <ion-input formControlName="nickname" labelPlacement="floating" placeholder="Nombre de Usuario">
+              <div slot="label">Nombre de Usuario o correo</div>
+            </ion-input>
           </ion-item>
           <ion-item>
-            <ion-label position="floating">Contraseña</ion-label>
-            <ion-input formControlName="password" type="password" placeholder="correoduoc2024"></ion-input>
+            <ion-icon name="lock-closed-outline"></ion-icon>
+            <ion-input formControlName="password" labelPlacement="floating" type="password" placeholder="Contraseña">
+              <div slot="label">Contraseña</div>
+            </ion-input>
           </ion-item>
+          <div class="centrar">
+            <ion-button expand="full" type="submit">Iniciar Sesión</ion-button>
+          </div>
         </form>
-        <br>
-        <ion-button (click)="ingresar()">Ingresar</ion-button>
       </ion-card-content>
     </ion-card>
-
   </ion-content>
 </div>

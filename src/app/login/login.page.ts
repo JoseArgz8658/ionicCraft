@@ -1,10 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  FormGroup,
-  FormControl,
-  Validators,
-  FormBuilder
-} from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AlertController, NavController } from '@ionic/angular';
 
 @Component({
@@ -15,49 +10,49 @@ import { AlertController, NavController } from '@ionic/angular';
 export class LoginPage implements OnInit {
 
   formularioLogin: FormGroup;
+  usuarios: any[] = [
+    { nickname: 'admin', email: 'admin@admin.admin', password: 'admin' },
+    { nickname: 'Jose', email: 'jo.aranguiza@duocuc.cl', password: 'Duoc2024!' }
+  ];
 
-  constructor(public fb: FormBuilder,
+  constructor(
+    private fb: FormBuilder,
     public alertController: AlertController,
     public navCtrl: NavController
   ) {
     this.formularioLogin = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
+      'nickname': ['', Validators.required],
+      'password': ['', Validators.required]
     });
   }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
-  async ingresar() {
-    var f = this.formularioLogin.value;
-    var usuarioStr = localStorage.getItem('usuario');
-  
-    if (usuarioStr) {
-      var usuario = JSON.parse(usuarioStr);
-  
-      if (usuario.email == f.email && usuario.password == f.password) {
-        console.log('Ingresando');
-        this.navCtrl.navigateRoot('home');
-      } else {
-        const alert = await this.alertController.create({
-          header: 'Error',
-          subHeader: 'Datos Incorrectos.',
-          message: 'Algun dato ingresado es incorrecto.',
-          buttons: ['Aceptar']
-        });
-        await alert.present();
-      }
-    } else {
-      const alert = await this.alertController.create({
-        header: 'Error',
-        subHeader: 'Usuario no encontrado.',
-        message: 'No se ha encontrado ningún usuario registrado.',
+  async iniciarSesion() {
+    const f = this.formularioLogin.value;
+
+    const usuarioEncontrado = this.usuarios.find(usuario => 
+      usuario.nickname === f.nickname && usuario.password === f.password
+    );
+
+    if (usuarioEncontrado) {
+      localStorage.setItem('nickname', JSON.stringify(usuarioEncontrado.nickname));
+      console.log('Usuario ingresado: ', usuarioEncontrado.nickname);
+      this.navCtrl.navigateRoot('home');
+      
+      const successAlert = await this.alertController.create({
+        header: 'Éxito',
+        message: 'Iniciaste sesión correctamente.',
         buttons: ['Aceptar']
       });
-      await alert.present();
+      await successAlert.present();
+    } else {
+      const errorAlert = await this.alertController.create({
+        header: 'Error',
+        message: 'Credenciales incorrectas. Por favor, intenta de nuevo.',
+        buttons: ['Aceptar']
+      });
+      await errorAlert.present();
     }
   }
-  
-
 }

@@ -19,16 +19,16 @@ export class PerfilPage implements OnInit {
   }
 
   verificarSesionActiva() {
-    const usuario = localStorage.getItem('usuario');
-    if (usuario) {
-      this.usuarioActivo = JSON.parse(usuario);
+    const nickname = localStorage.getItem('nickname');
+    if (nickname) {
+      this.usuarioActivo = JSON.parse(nickname);
     } else {
       this.usuarioActivo = null;
     }
   }
 
   async cerrarSesion() {
-    localStorage.removeItem('usuario');
+    localStorage.removeItem('nickname');
     this.usuarioActivo = null;
     const alert = await this.alertController.create({
       header: 'Sesión cerrada',
