@@ -4,17 +4,17 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { ConfiguracionesPageRoutingModule } from './configuraciones-routing.module';
+import { DeletePageRoutingModule } from './delete-routing.module';
 
-import { ConfiguracionesPage } from './configuraciones.page';
+import { DeletePage } from './delete.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    ConfiguracionesPageRoutingModule
+    DeletePageRoutingModule
   ],
-  declarations: [ConfiguracionesPage]
+  declarations: [DeletePage]
 })
-export class ConfiguracionesPageModule {}
+export class DeletePageModule {}
