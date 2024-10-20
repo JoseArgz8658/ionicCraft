@@ -5,7 +5,7 @@
     </ion-buttons>
     <ion-title>
       Bioma - <br>
-      {{ bioma.nombre }}
+      {{ x.bioma_nombre }}
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -13,42 +13,12 @@
 <ion-content>
 
   <ion-card>
-    <img [src]="bioma.imagen" [alt]="bioma.nombre"/>
     <ion-card-header>
-      <ion-card-title>{{ bioma.nombre }}</ion-card-title>
-      <ion-card-subtitle>{{ bioma.id }}</ion-card-subtitle>
+      <ion-card-title>{{ x.bioma_nombre }}</ion-card-title>
+      <ion-card-subtitle>{{ x.minecraft_bioma_id }}</ion-card-subtitle>
     </ion-card-header>
-    <ion-card-content>
-      <p>{{ bioma.descripcion.split('\n')[0] }}</p>
-      <p>{{ bioma.descripcion.split('\n')[1] }}</p>
-    </ion-card-content>
-  </ion-card>
-
-  <ion-card>
-    <ion-card-header>
-      <ion-card-title>Caracteristicas</ion-card-title>
-    </ion-card-header>
-    <ion-card-content>
-      <div class="horizontal-scroll">
-        <div *ngFor="let caracteristica of bioma.caracteristicas" class="caracteristica-item">
-          <img [src]="caracteristica.imagen" [alt]="caracteristica.nombre"/>
-        </div>
-      </div>
-    </ion-card-content>
-  </ion-card>
-
-  <ion-card *ngIf="bioma.variantes.length > 0">
-    <ion-card-header>
-      <ion-card-title>Variantes</ion-card-title>
-    </ion-card-header>
-    <ion-card-content>
-      <ul>
-        <li *ngFor="let variante of bioma.variantes">
-          {{ variante.nombre }}<br>
-          id: {{ variante.id }}
-          <hr>
-        </li>
-      </ul>
+    <ion-card-content style="word-wrap: break-word; white-space: normal;">
+      {{ x.bioma_descripcion }}
     </ion-card-content>
   </ion-card>
 

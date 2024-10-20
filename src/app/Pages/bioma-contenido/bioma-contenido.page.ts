@@ -7,10 +7,10 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./bioma-contenido.page.scss'],
 })
 export class BiomaContenidoPage implements OnInit {
-  bioma: any;
+  x: any;
 
   constructor(private route: ActivatedRoute) {
-    this.bioma = this.route.snapshot.paramMap.get('bioma') ? JSON.parse(this.route.snapshot.paramMap.get('bioma')!) : null;
+    this.x = this.route.snapshot.paramMap.get('x') ? JSON.parse(this.route.snapshot.paramMap.get('x')!) : null;
   }
 
   ngOnInit() {

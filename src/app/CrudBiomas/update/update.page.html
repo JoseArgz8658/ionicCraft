@@ -10,11 +10,14 @@
 
   <ion-content [fullscreen]="true">
     <ion-card>
-      <ion-card-header>
-        <ion-card-title>Agregar Nuevo Bioma</ion-card-title>
+      <ion-card-header class="card-color-fondo-letras">
+        <div class="centrar">
+          <h2>Modificar Bioma</h2>
+          <p>Para modificar los datos del bioma, cambie cualquier datos que quiera para despues presionar el boton modificar bioma.</p>
+        </div>
       </ion-card-header>
 
-      <ion-card-content>
+      <ion-card-content class="card-color-fondo"><br>
         <ion-item>
           <ion-input label="Nombre el id del Bioma" labelPlacement="floating" placeholder="Ingrese el id del bioma" [(ngModel)]="biomas.minecraft_bioma_id"></ion-input>
         </ion-item>
@@ -27,7 +30,9 @@
           <ion-input label="Descripcion del bioma" labelPlacement="floating" placeholder="Ingrese la descripcion"  [(ngModel)]="biomas.bioma_descripcion"></ion-input>
         </ion-item>
     
-        <ion-button color="success" (click)="update()">Modificar Bioma</ion-button>
+        <div class="centrar">
+          <ion-button color="success" (click)="update()">Modificar Bioma</ion-button>
+        </div>
 
       </ion-card-content>
     </ion-card>

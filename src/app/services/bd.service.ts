@@ -3,6 +3,7 @@ import { SQLite, SQLiteObject } from '@awesome-cordova-plugins/sqlite/ngx';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Biomas } from './biomas';
 import { Usuarios } from './usuarios';
+import { Foros } from './foros';
 import { AlertController, Platform } from '@ionic/angular';
 
 @Injectable({
@@ -15,7 +16,7 @@ export class BdService {
 
   tablaUsuarios: string = "CREATE TABLE IF NOT EXISTS usuario(usuario_id INTEGER PRIMARY KEY AUTOINCREMENT, usuario_tipo VARCHAR(10) NOT NULL, usuario_apodo VARCHAR(15) NOT NULL UNIQUE, usuario_gmail VARCHAR(100) NOT NULL UNIQUE, usuario_password VARCHAR(100) NOT NULL);";
 
-  tablaForoPost: string = "CREATE TABLE IF NOT EXISTS foroPost(foro_id INTEGER PRIMARY KEY AUTOINCREMENT, foro_titulo VARCHAR(50) NOT NULL, foro_descripcion TEXT NOT NULL, foro_fecha_creacion DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL, foro_fecha_modificacion DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL, usuario_id INTEGER NOT NULL, FOREIGN KEY(usuario_id) REFERENCES usuario(usuario_id));";
+  tablaForos: string = "CREATE TABLE IF NOT EXISTS foro(foro_id INTEGER PRIMARY KEY AUTOINCREMENT, foro_titulo VARCHAR(50) NOT NULL, foro_descripcion TEXT NOT NULL);";
   //Insertar los datos a las tablas
   registroBioma1: string = "INSERT or IGNORE INTO bioma(bioma_id, minecraft_bioma_id, bioma_nombre, bioma_descripcion) VALUES (1, 'dark_forest', 'Bosque Oscuro', 'Un bioma denso donde los árboles gigantes impiden que la luz solar alcance el suelo, creando áreas oscuras.');";
 
@@ -76,8 +77,11 @@ export class BdService {
   registroUsuario1: string = "INSERT OR IGNORE INTO usuario(usuario_id, usuario_tipo, usuario_apodo, usuario_gmail, usuario_password) VALUES ('1', 'admin', 'admin', 'admin@admin.admin', 'admin');";
   registroUsuario2: string = "INSERT OR IGNORE INTO usuario(usuario_id, usuario_tipo, usuario_apodo, usuario_gmail, usuario_password) VALUES ('2', 'usuario', 'JoseArgz', 'jo.aranguiza@gmail.com', 'duoc2024');";
 
+  registroForo1: string = "INSERT OR IGNORE INTO foro(foro_id, foro_titulo, foro_descripcion) VALUES (1, 'Bienvenido al Foro de ionicCraft', 'Este es el foro donde puedes subir tus opiniones a los usuarios en general, disfruta y diviertete en el foro.');";
+
   listaBiomas = new BehaviorSubject([]);
   listaUsuarios = new BehaviorSubject([]);
+  listaForos = new BehaviorSubject([]);
 
   private isDBReady: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
@@ -112,6 +116,8 @@ export class BdService {
 
       await this.database.executeSql(this.tablaUsuarios, []);
 
+      await this.database.executeSql(this.tablaForos, []);
+
       await this.database.executeSql(this.registroBioma1, []);
       await this.database.executeSql(this.registroBioma2, []);
       await this.database.executeSql(this.registroBioma3, []);
@@ -144,6 +150,9 @@ export class BdService {
       await this.database.executeSql(this.registroUsuario1, []);
       await this.database.executeSql(this.registroUsuario2, []);
 
+      await this.database.executeSql(this.registroForo1, []);
+
+
     }catch(e){
       this.presentAlert('CrearTabla()', 'Error: ' + JSON.stringify(e));
     }
@@ -155,6 +164,10 @@ export class BdService {
 
   fetchUsuarios(): Observable<Usuarios[]>{
     return this.listaUsuarios.asObservable();
+  }
+
+  fetchForos(): Observable<Foros[]>{
+    return this.listaForos.asObservable();
   }
 
   dbState(){
@@ -265,6 +278,55 @@ export class BdService {
     return this.database.executeSql('INSERT INTO usuario(usuario_tipo, usuario_apodo, usuario_gmail, usuario_password) VALUES (?, ?, ?, ?)',[usuario_tipo, usuario_apodo, usuario_gmail, usuario_password]).then(res=>{
       this.presentAlert("Agregar", "Usuario Agregado");
       this.traerBiomas();
+    }).catch(e=>{
+      this.presentAlert('Agregar', 'Error: ' + JSON.stringify(e));
+    })
+  }
+
+  //Tabla Foro
+  traerForos(){
+    return this.database.executeSql('SELECT * FROM foro',[]).then(res=>{
+      //variable para almacenar el resultado de la consulta
+      let items: Foros[] = [];
+      //verificar si trae o no registros
+      if(res.rows.length > 0){
+        //recorro los registros
+        for(var i = 0; i < res.rows.length; i++){
+          //agregar el registro a mi variable
+          items.push({
+            foro_id: res.row.item(i).foro_id,
+            foro_titulo: res.row.item(i).foro_titulo,
+            foro_descripcion: res.row.item(i).foro_descripcion
+          })
+        }
+      }
+      //actualizo mi observable
+      this.listaForos.next(items as any);
+    })
+  }
+
+  eliminarForo(id:string){
+    return this.database.executeSql('DELETE FROM foro WHERE for_id = ?',[id]).then(res=>{
+      this.presentAlert("Eliminar", "Foro Eliminado");
+      this.traerForos();
+    }).catch(e=>{
+      this.presentAlert('Eliminar', 'Error: ' + JSON.stringify(e));
+    })
+  }
+
+  actualizarForo(foro_id:string, foro_titulo:string, foro_descripcion:string){
+    return this.database.executeSql('UPDATE foro SET foro_titulo = ?, foro_descripcion = ? WHERE foro_id = ?',[foro_titulo, foro_descripcion, foro_id]).then(res=>{
+      this.presentAlert("Modificar", "Foro Modificado");
+      this.traerForos();
+    }).catch(e=>{
+      this.presentAlert('Modificar', 'Error: ' + JSON.stringify(e));
+    })
+  }
+
+  agregarForos(foro_titulo:string, foro_descripcion:string){
+    return this.database.executeSql('INSERT INTO usuario(foro_titulo, foro_descripcion) VALUES (?, ?)',[foro_titulo, foro_descripcion]).then(res=>{
+      this.presentAlert("Agregar", "Foro Agregado");
+      this.traerForos();
     }).catch(e=>{
       this.presentAlert('Agregar', 'Error: ' + JSON.stringify(e));
     })
