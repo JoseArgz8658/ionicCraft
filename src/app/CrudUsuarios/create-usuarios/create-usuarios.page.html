@@ -1,13 +1,45 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>createUsuarios</ion-title>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
+<div class="ion-page" id="main-content">
+  <ion-header [translucent]="true">
     <ion-toolbar>
-      <ion-title size="large">createUsuarios</ion-title>
+      <ion-buttons slot="start">
+        <ion-back-button default-href="#"></ion-back-button>
+      </ion-buttons>
+      <ion-title>Crear otro Usuario</ion-title>
     </ion-toolbar>
   </ion-header>
-</ion-content>
+
+  <ion-content [fullscreen]="true">
+    <ion-card>
+      <ion-card-header class="card-color-fondo-letras">
+        <div class="centrar">
+          <h2>Agregar Nuevo Usuario</h2>
+          <p>Ingrese los datos para agregar un nuevo Usuario.</p>
+        </div>
+      </ion-card-header>
+
+      <ion-card-content class="card-color-fondo"><br>
+        <ion-item>
+          <ion-input label="Tipo de usuario (admin/usuario)" labelPlacement="floating" placeholder="Ingrese el tipo de Usuario" [(ngModel)]="usuario_tipo"></ion-input>
+        </ion-item>
+    
+        <ion-item>
+          <ion-input label="Apodo de Usuario" labelPlacement="floating" placeholder="Ingrese el apodo del Usuario" [(ngModel)]="usuario_apodo"></ion-input>
+        </ion-item>
+    
+        <ion-item>
+          <ion-input label="Gmail de Usuario" labelPlacement="floating" placeholder="Ingrese un gmail de Usuario"  [(ngModel)]="usuario_gmail"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-input label="Contraseña de Usuario" labelPlacement="floating" placeholder="Ingrese una contraseña de Usuario"  [(ngModel)]="usuario_password"></ion-input>
+        </ion-item>
+
+        <div class="centrar">
+          <ion-button color="success" (click)="agregar()">Agregar Usuario</ion-button>
+        </div>
+
+      </ion-card-content>
+    </ion-card>
+
+  </ion-content>
+</div>

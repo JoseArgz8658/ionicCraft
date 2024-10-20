@@ -51,16 +51,17 @@ const routes: Routes = [
   },
   {
     path: 'read-usuarios',
-    loadChildren: () => import('./CrudUsuarios/read-usuarios/read-usuarios.module').then( m => m.ReadUsuariosPageModule)
+    loadChildren: () => import('./crudUsuarios/read-usuarios/read-usuarios.module').then( m => m.ReadUsuariosPageModule)
+  },  {
+    path: 'create-usuarios',
+    loadChildren: () => import('./crudUsuarios/create-usuarios/create-usuarios.module').then( m => m.CreateUsuariosPageModule)
   },
   {
     path: 'update-usuarios',
-    loadChildren: () => import('./CrudUsuarios/update-usuarios/update-usuarios.module').then( m => m.UpdateUsuariosPageModule)
+    loadChildren: () => import('./crudUsuarios/update-usuarios/update-usuarios.module').then( m => m.UpdateUsuariosPageModule)
   },
-  {
-    path: 'create-usuarios',
-    loadChildren: () => import('./CrudUsuarios/create-usuarios/create-usuarios.module').then( m => m.CreateUsuariosPageModule)
-  },
+
+
 
 
 ];

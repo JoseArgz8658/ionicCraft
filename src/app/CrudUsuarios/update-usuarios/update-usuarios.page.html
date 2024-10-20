@@ -1,13 +1,45 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>updateUsuarios</ion-title>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
+<div class="ion-page" id="main-content">
+  <ion-header [translucent]="true">
     <ion-toolbar>
-      <ion-title size="large">updateUsuarios</ion-title>
+      <ion-buttons slot="start">
+        <ion-back-button default-href="#"></ion-back-button>
+      </ion-buttons>
+      <ion-title>Modificar Usuario</ion-title>
     </ion-toolbar>
   </ion-header>
-</ion-content>
+
+  <ion-content [fullscreen]="true">
+    <ion-card>
+      <ion-card-header class="card-color-fondo-letras">
+        <div class="centrar">
+          <h2>Modificar el Usurio</h2>
+          <p>Para modificar los datos del usuario, cambie cualquier datos que quiera para despues presionar el boton modificar usuario.</p>
+        </div>
+      </ion-card-header>
+
+      <ion-card-content class="card-color-fondo"><br>
+        <ion-item>
+          <ion-input label="Tipo de usuario" labelPlacement="floating" placeholder="Ingrese el tipo de usuario" [(ngModel)]="usuarios.usuario_tipo"></ion-input>
+        </ion-item>
+    
+        <ion-item>
+          <ion-input label="Apodo del usuario" labelPlacement="floating" placeholder="Ingrese apodo del usuario" [(ngModel)]="usuarios.usuario_apodo"></ion-input>
+        </ion-item>
+    
+        <ion-item>
+          <ion-input label="Gmail del usuario" labelPlacement="floating" placeholder="Ingresar gmail del usuario"  [(ngModel)]="usuarios.usuario_gmail"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-input label="Contraseña de Usuario" labelPlacement="floating" placeholder="Ingrese la contraseña nueva"  [(ngModel)]="usuarios.usuario_password"></ion-input>
+        </ion-item>
+    
+        <div class="centrar">
+          <ion-button color="success" (click)="update()">Modificar usuario</ion-button>
+        </div>
+
+      </ion-card-content>
+    </ion-card>
+
+  </ion-content>
+</div>

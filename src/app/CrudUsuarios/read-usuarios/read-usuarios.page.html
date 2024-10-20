@@ -10,17 +10,17 @@
 
   <ion-content [fullscreen]="true">
 
-    <ion-item-sliding *ngFor="let x of arregloUsuarios">
+    <ion-item-sliding class="centrar" *ngFor="let x of arregloUsuarios">
       <ion-item>
         <ion-card>
           <ion-card-header>
             <ion-card-title>{{ x.usuario_apodo }}</ion-card-title>
-            <ion-card-subtitle>{{ x.usuario_id }}</ion-card-subtitle>
           </ion-card-header>
     
           <ion-card-content style="word-wrap: break-word; white-space: normal;">
-            {{ x.usuario_tipo }} <br>
-            {{ x.usuario_gmail }}
+            <p>Id del Usuario: {{ x.usuario_id }}</p>
+            <p>Tipo de Usuario: {{ x.usuario_tipo }}</p>
+            <p>Gmail del Usuario: {{ x.usuario_gmail }}</p>
           </ion-card-content>
         </ion-card>
       </ion-item>

@@ -15,17 +15,15 @@
       </ion-toolbar>
     </ion-header>
 
-    <div class="centrar">
-      <ion-item-sliding *ngFor="let x of arregloBiomas" (click)="goBiomaContenido(x)">
-        <ion-item>
-          <ion-card>
-            <ion-card-header>
-              <ion-card-title>{{ x.bioma_nombre }}</ion-card-title>
-            </ion-card-header>
-          </ion-card>
-        </ion-item>
-      </ion-item-sliding>
-    </div>
+    <ion-item-sliding class="centrar" *ngFor="let x of arregloBiomas" (click)="goBiomaContenido(x)">
+      <ion-item>
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>{{ x.bioma_nombre }}</ion-card-title>
+          </ion-card-header>
+        </ion-card>
+      </ion-item>
+    </ion-item-sliding>
 
   </ion-content>
 </div>

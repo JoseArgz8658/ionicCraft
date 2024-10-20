@@ -102,6 +102,7 @@ export class BdService {
         //llamar a la función de creación de tablas
         this.crearTablas();
         this.traerBiomas();
+        this.traerUsuarios();
         //cambiar el observable del estado de la base de datos
         this.isDBReady.next(true);
       }).catch(e=>{

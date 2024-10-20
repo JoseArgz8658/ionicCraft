@@ -3,11 +3,11 @@ import { NavigationExtras, Router } from '@angular/router';
 import { BdService } from 'src/app/services/bd.service';
 
 @Component({
-  selector: 'app-read',
-  templateUrl: './read.page.html',
-  styleUrls: ['./read.page.scss'],
+  selector: 'app-read-usuarios',
+  templateUrl: './read-usuarios.page.html',
+  styleUrls: ['./read-usuarios.page.scss'],
 })
-export class ReadPage implements OnInit {
+export class ReadUsuariosPage implements OnInit {
   arregloUsuarios: any = [
     {
       usuario_id: '',
@@ -39,16 +39,17 @@ export class ReadPage implements OnInit {
         usuario: x
       }
     }
-    this.router.navigate(['/updateUsuarios'], navigationsExtras);
+    this.router.navigate(['/update-usuarios'], navigationsExtras);
   }
-
+  
   eliminar(x:any){
     this.bd.eliminarUsuario(x.usuario_id);
   }
 
   create(){
-    this.router.navigate(['/createUsuarios']);
+    this.router.navigate(['/create-usuarios']);
   }
+  
 
   refreshPage() {
     location.reload();
