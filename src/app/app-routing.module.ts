@@ -21,11 +21,15 @@ const routes: Routes = [
   },
   {
     path: 'registro',
-    loadChildren: () => import('./registro/registro.module').then( m => m.RegistroPageModule)
+    loadChildren: () => import('./User/registro/registro.module').then( m => m.RegistroPageModule)
   },
   {
     path: 'login',
-    loadChildren: () => import('./login/login.module').then( m => m.LoginPageModule)
+    loadChildren: () => import('./User/login/login.module').then( m => m.LoginPageModule)
+  },
+  {
+    path: 'not-found',
+    loadChildren: () => import('./User/not-found/not-found.module').then( m => m.NotFoundPageModule)
   },
   {
     path: 'bioma-contenido',
@@ -33,23 +37,19 @@ const routes: Routes = [
   },
   {
     path: 'read',
-    loadChildren: () => import('./CRUD/read/read.module').then( m => m.ReadPageModule)
+    loadChildren: () => import('./CrudBiomas/read/read.module').then( m => m.ReadPageModule)
   },
 
   {
     path: 'update',
-    loadChildren: () => import('./CRUD/update/update.module').then( m => m.UpdatePageModule)
-  },
-
-  {
-    path: 'delete',
-    loadChildren: () => import('./CRUD/delete/delete.module').then( m => m.DeletePageModule)
+    loadChildren: () => import('./CrudBiomas/update/update.module').then( m => m.UpdatePageModule)
   },
 
   {
     path: 'create',
-    loadChildren: () => import('./CRUD/create/create.module').then( m => m.CreatePageModule)
+    loadChildren: () => import('./CrudBiomas/create/create.module').then( m => m.CreatePageModule)
   },
+
 
 ];
 

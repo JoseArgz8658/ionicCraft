@@ -1,0 +1,36 @@
+<div class="ion-page" id="main-content">
+  <ion-header [translucent]="true">
+    <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-back-button default-href="#"></ion-back-button>
+      </ion-buttons>
+      <ion-title>Crear otro bioma</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content [fullscreen]="true">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Agregar Nuevo Bioma</ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content>
+        <ion-item>
+          <ion-input label="Id del Bioma" labelPlacement="floating" placeholder="Ingrese el id del bioma" [(ngModel)]="minecraft_bioma_id"></ion-input>
+        </ion-item>
+    
+        <ion-item>
+          <ion-input label="Nombre del Bioma" labelPlacement="floating" placeholder="Ingrese nombre del bioma" [(ngModel)]="bioma_nombre"></ion-input>
+        </ion-item>
+    
+        <ion-item>
+          <ion-input label="Descricion del Bioma" labelPlacement="floating" placeholder="Ingrese una descripcion del Bioma"  [(ngModel)]="bioma_descripcion"></ion-input>
+        </ion-item>
+    
+        <ion-button color="success" (click)="agregar()">Agregar Bioma</ion-button>
+
+      </ion-card-content>
+    </ion-card>
+
+  </ion-content>
+</div>

@@ -49,4 +49,8 @@ export class ReadPage implements OnInit {
     this.router.navigate(['/create']);
   }
 
+  refreshPage() {
+    location.reload();
+  }
+
 }
