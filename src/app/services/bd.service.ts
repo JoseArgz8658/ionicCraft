@@ -99,11 +99,8 @@ export class BdService {
 
   async crearTablas(){
     try{
-      //crear las tablas en el orden correcto
       await this.database.executeSql(this.tablaBiomas, []);
 
-
-      //realizo los insert en caso que corresponda
       await this.database.executeSql(this.registroBioma, []);
 
     }catch(e){

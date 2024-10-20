@@ -1,13 +1,23 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>update</ion-title>
+    <ion-title>Modificar</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">update</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <ion-item>
+    <ion-input label="Nombre el id del Bioma" labelPlacement="floating" placeholder="Ingrese el id del bioma" [(ngModel)]="biomas.minecraft_bioma_id"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-input label="Nombre del Bioma" labelPlacement="floating" placeholder="Ingrese el nombre del bioma" [(ngModel)]="biomas.bioma_nombre"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-input label="Descripcion del bioma" labelPlacement="floating" placeholder="Ingrese la descripcion"  [(ngModel)]="biomas.bioma_descripcion"></ion-input>
+  </ion-item>
+
+  <ion-button color="success" (click)="update()">Modificar Bioma</ion-button>
+  <ion-button color="warning" [routerLink]="['/read']">Ir a otra página</ion-button>
+
 </ion-content>
