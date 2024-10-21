@@ -1,0 +1,38 @@
+<div class="ion-page" id="main-content">
+  <ion-header [translucent]="true">
+    <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-menu-button></ion-menu-button>
+      </ion-buttons>
+      <ion-title>Foro de Fotos</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content [fullscreen]="true">
+
+    <ion-card>
+      <img [src]="photo" *ngFor="let photo of photos" alt="Sin Imagen"/>
+    </ion-card>
+
+    <ion-fab vertical="bottom" horizontal="center" slot="fixed">
+      
+      <ion-fab-button>
+        <ion-icon name="add"></ion-icon>
+      </ion-fab-button>
+
+      <ion-fab-list side="end">
+        <ion-fab-button (click)="tomarFoto()">
+          <ion-icon name="images-outline"></ion-icon>
+        </ion-fab-button>
+      </ion-fab-list>
+
+      <ion-fab-list side="start">
+        <ion-fab-button (click)="refreshPage()">
+          <ion-icon name="refresh-circle-outline"></ion-icon>
+        </ion-fab-button>
+      </ion-fab-list>
+
+    </ion-fab>
+
+  </ion-content>
+</div>

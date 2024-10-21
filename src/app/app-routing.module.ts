@@ -52,13 +52,18 @@ const routes: Routes = [
   {
     path: 'read-usuarios',
     loadChildren: () => import('./crudUsuarios/read-usuarios/read-usuarios.module').then( m => m.ReadUsuariosPageModule)
-  },  {
+  },
+  {
     path: 'create-usuarios',
     loadChildren: () => import('./crudUsuarios/create-usuarios/create-usuarios.module').then( m => m.CreateUsuariosPageModule)
   },
   {
     path: 'update-usuarios',
     loadChildren: () => import('./crudUsuarios/update-usuarios/update-usuarios.module').then( m => m.UpdateUsuariosPageModule)
+  },
+  {
+    path: 'fotos',
+    loadChildren: () => import('./Pages/fotos/fotos.module').then( m => m.FotosPageModule)
   },
 
 
