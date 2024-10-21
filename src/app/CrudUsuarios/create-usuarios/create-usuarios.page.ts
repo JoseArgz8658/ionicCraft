@@ -9,7 +9,7 @@ import { IonContent } from '@ionic/angular';
   styleUrls: ['./create-usuarios.page.scss'],
 })
 export class CreateUsuariosPage implements OnInit {
-  @ViewChild('content', { static: false }) content: IonContent;
+  @ViewChild('content', { static: false }) content!: IonContent;
 
   usuario_tipo: string = "";
   usuario_apodo: string = "";
