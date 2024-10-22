@@ -23,4 +23,10 @@ export class AppComponent {
     await Keyboard.hide();
   }
 
+  mostrarItem: boolean = false;
+
+  toggleItem() {
+    this.mostrarItem = !this.mostrarItem;
+  }
+
 }

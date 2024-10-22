@@ -65,6 +65,11 @@ const routes: Routes = [
     path: 'fotos',
     loadChildren: () => import('./Pages/fotos/fotos.module').then( m => m.FotosPageModule)
   },
+  {
+    path: 'api',
+    loadChildren: () => import('./Pages/api/api.module').then( m => m.ApiPageModule)
+  },
+
 
 
 

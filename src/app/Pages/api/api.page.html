@@ -1,0 +1,28 @@
+<div class="ion-page" id="main-content">
+  <ion-header [translucent]="true">
+    <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-menu-button></ion-menu-button>
+      </ion-buttons>
+      <ion-title>api</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content [fullscreen]="true">
+
+    <ion-item>
+      <ion-label position="floating">Nombre del jugador</ion-label>
+      <ion-input [(ngModel)]="player"></ion-input>
+    </ion-item>
+    <ion-button expand="full" (click)="buscarSkin()">Buscar Skin</ion-button>
+
+    <div *ngIf="playerId">
+      <h3>ID del jugador: {{ playerId }}</h3>  <!-- Mostrar la ID del jugador -->
+    </div>
+
+    <div *ngIf="skinUrl" class="skin-container">
+      <img [src]="skinUrl" alt="Skin del jugador" />
+    </div>
+
+  </ion-content>
+</div>
