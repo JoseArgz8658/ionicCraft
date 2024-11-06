@@ -15,17 +15,12 @@ export class ApiService {
     })
   }
 
-  mojangAPIURL = 'https://api.mojang.com/users/profiles/minecraft/';
-  mineatarAPIURL = 'https://api.mineatar.io/body/full/';
+  craftHead = 'https://crafthead.net/body/';
 
   constructor(private http:HttpClient) { }
 
-  getId(id: any):Observable<any>{
-    return this.http.get<any>(this.mojangAPIURL+id).pipe(retry(3));
-  }
-
-  getSkin(player: string):Observable<any>{
-    return this.http.get<any>(this.mineatarAPIURL+player).pipe(retry(3));
+  getSkin(skinPlayer: string):Observable<any>{
+    return this.http.get<any>(this.craftHead+skinPlayer).pipe(retry(3));
   }
 
 }

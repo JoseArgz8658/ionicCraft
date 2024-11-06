@@ -7,38 +7,24 @@ import { ApiService } from 'src/app/services/api.service';
   styleUrls: ['./api.page.scss'],
 })
 export class ApiPage implements OnInit {
-  player: string = '';
-  playerId: string = '';
-  skinUrl: string = '';
+  skinPlayer: string = '';
+  skinData: any;
 
   constructor(private api: ApiService) { }
 
   ngOnInit() {
   }
 
-  buscarSkin() {
-    if (this.player) {
-      // Obtener el ID del jugador
-      this.api.getId(this.player).subscribe(
-        (response) => {
-          this.playerId = response.id;  // Almacenar la ID
-          // Usar el ID para obtener el skin
-          this.api.getSkin(this.playerId).subscribe(
-            (skinResponse) => {
-              this.skinUrl = skinResponse.body;  // Almacenar la URL del skin
-            },
-            (error) => {
-              console.error('Error al obtener el skin:', error);
-            }
-          );
-        },
-        (error) => {
-          console.error('Error al obtener el ID del jugador:', error);
-        }
-      );
-    } else {
-      console.log('Por favor, ingresa un nombre de jugador.');
-    }
+  getPlayerSkin() {
+    this.api.getSkin(this.skinPlayer).subscribe(
+      (data) => {
+        this.skinData = data;  // Asigna los datos del skin a la variable
+        console.log(data);  // Muestra los datos en la consola para verificar
+      },
+      (error) => {
+        console.error('Error al obtener el skin:', error);
+      }
+    );
   }
 
 }
