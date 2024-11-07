@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Keyboard  } from '@capacitor/keyboard';
+import { MenuController } from '@ionic/angular';
 
 @Component({
   selector: 'app-root',
@@ -8,7 +9,7 @@ import { Keyboard  } from '@capacitor/keyboard';
 })
 export class AppComponent {
   
-  constructor() { }
+  constructor(private menuController: MenuController) { }
 
   ngOnInit(): void {
     Keyboard.addListener('keyboardDidShow', info => {
@@ -27,6 +28,10 @@ export class AppComponent {
 
   toggleItem() {
     this.mostrarItem = !this.mostrarItem;
+  }
+
+  closeMenu() {
+    this.menuController.close();
   }
 
 }

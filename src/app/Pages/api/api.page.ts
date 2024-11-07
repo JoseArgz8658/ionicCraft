@@ -7,24 +7,50 @@ import { ApiService } from 'src/app/services/api.service';
   styleUrls: ['./api.page.scss'],
 })
 export class ApiPage implements OnInit {
-  skinPlayer: string = '';
-  skinData: any;
+  nickName: string = '';
+  armorSkinBody: string | null = null;
+
+  showHelp: boolean = false;
+  isNickNameValid: boolean = true;
 
   constructor(private api: ApiService) { }
 
   ngOnInit() {
   }
 
-  getPlayerSkin() {
-    this.api.getSkin(this.skinPlayer).subscribe(
-      (data) => {
-        this.skinData = data;  // Asigna los datos del skin a la variable
-        console.log(data);  // Muestra los datos en la consola para verificar
-      },
-      (error) => {
-        console.error('Error al obtener el skin:', error);
-      }
-    );
+  validarNickName() {
+    const regex = /^(?=.*[A-Za-z])[^\s]+$/;
+    this.isNickNameValid = regex.test(this.nickName);
+  }
+
+  getArmorSkin() {
+    this.validarNickName();
+    if (!this.isNickNameValid) {
+      console.error('El nombre de usuario no es válido');
+      return;
+    }
+
+    this.armorSkinBody = `${this.api.craftHeadArmorBody}/armor/body/${this.nickName}`;
+  }
+
+  downloadImage() {
+    if (!this.armorSkinBody) return;
+  
+    fetch(this.armorSkinBody)
+      .then(response => response.blob())
+      .then(blob => {
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = `${this.nickName}_skin.png`;
+        link.click();
+        URL.revokeObjectURL(url);
+      })
+      .catch(error => console.error('Error descargando la imagen:', error));
+  }
+
+  toggleHelp() {
+    this.showHelp = !this.showHelp;
   }
 
 }

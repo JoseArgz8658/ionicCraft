@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
-import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
-import { retry, catchError } from 'rxjs/operators';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { retry } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -15,12 +15,12 @@ export class ApiService {
     })
   }
 
-  craftHead = 'https://crafthead.net/body/';
+  craftHeadArmorBody = 'https://crafthead.net';
 
   constructor(private http:HttpClient) { }
 
-  getSkin(skinPlayer: string):Observable<any>{
-    return this.http.get<any>(this.craftHead+skinPlayer).pipe(retry(3));
+  getSkinArmorBody(nickName: any):Observable<any>{
+    return this.http.get(this.craftHeadArmorBody+'/armor/body/'+nickName).pipe(retry(3));
   }
 
 }

@@ -4,26 +4,72 @@
       <ion-buttons slot="start">
         <ion-menu-button></ion-menu-button>
       </ion-buttons>
-      <ion-title>api</ion-title>
+      <ion-title>Skin Jugador</ion-title>
     </ion-toolbar>
   </ion-header>
 
   <ion-content [fullscreen]="true">
+    <ion-card>
+      <ion-card-header class="card-color-fondo-letras">
+        <div class="centrar">
+          <h2>Buscar Skin de Jugador</h2>
+          <p>Para buscar una skin de jugador, por favor ingrese su NickName o nombre del jugador en el campo que estamos solicitando.</p>
+        </div>
+      </ion-card-header>
+      <ion-card-content class="card-color-fondo"><br>
+        
+        <ion-item>
+          <ion-icon name="person-outline"></ion-icon>
+          <ion-input type="text" [(ngModel)]="nickName" labelPlacement="floating" placeholder="JoseArgz8658" (ionBlur)="validarNickName()">
+            <div slot="label">Nombre de jugador</div>
+          </ion-input>
+          <ion-icon name="information-circle-outline" slot="end" (click)="toggleHelp()"></ion-icon>
+        </ion-item>
 
-    <ion-item>
-      <ion-label position="floating">Nombre del jugador</ion-label>
-      <ion-input [(ngModel)]="player"></ion-input>
-    </ion-item>
-    
-    <ion-button expand="full" (click)="buscarSkin()">Buscar Skin</ion-button>
-    
-    <div *ngIf="playerId">
-      <h3>ID del jugador: {{ playerId }}</h3> <!-- Mostrar la ID del jugador -->
-    </div>
-    
-    <div *ngIf="skinUrl" class="skin-container">
-      <img [src]="skinUrl" alt="Skin del jugador" />
-    </div>
+        <div *ngIf="!isNickNameValid">
+          <ion-card>
+            <ion-card-header class="centrar">
+              <ion-text color="danger">Error</ion-text>
+              <ion-card-title>¿Cual fue el error?</ion-card-title>
+            </ion-card-header>
+          
+            <ion-card-content>
+              El nombre debe contener al menos:
+              <ul>
+                <li>1 Letra o numero.</li>
+                <li>No debe estar vacio.</li>
+                <li>No debe contener espacios vacios.</li>
+              </ul>
+            </ion-card-content>
 
+          </ion-card>  
+        </div>
+
+        <div *ngIf="showHelp" class="centrar">
+          <ion-card>
+            <ion-card-header>
+              <ion-card-title>¿Como rellenar este campo?</ion-card-title>
+            </ion-card-header>
+          
+            <ion-card-content>
+              Es este campo debe ingresar un <strong>"Nombre de jugador"</strong> ejemplo <strong>"Notch"</strong> el creador del juego, si quiere la Skin de otro jugador debe ingresar el <strong>"NickName"</strong> de algun jugador de Minecraft.
+            </ion-card-content>
+          </ion-card>  
+        </div>
+
+        <div class="centrar">
+          <ion-button (click)="getArmorSkin()">Obtener Skin</ion-button>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card class="centrar">
+      <div *ngIf="armorSkinBody">
+        <h3>Skin de Jugador</h3>
+        <img [src]="armorSkinBody" alt="Armor Skin Body" />
+        <br><br>
+        <ion-button (click)="downloadImage()">Descargar Skin</ion-button>
+      </div>
+    </ion-card>
   </ion-content>
 </div>

@@ -10,7 +10,7 @@
       <ion-list [inset]="true">
 
         <ion-item>
-          <ion-button fill="clear" routerLink="/perfil">
+          <ion-button fill="clear" routerLink="/perfil" (click)="closeMenu()">
             <ion-icon name="person-circle-outline"></ion-icon>
             <ion-icon name="chevron-forward-outline"></ion-icon>
             <ion-label>Perfil</ion-label>
@@ -18,7 +18,7 @@
         </ion-item>
 
         <ion-item>
-          <ion-button fill="clear" routerLink="/home">
+          <ion-button fill="clear" routerLink="/home" (click)="closeMenu()">
             <ion-icon name="home-outline"></ion-icon>
             <ion-icon name="chevron-forward-outline"></ion-icon>
             <ion-label>Inicio</ion-label>
@@ -26,7 +26,7 @@
         </ion-item>
 
         <ion-item>
-          <ion-button fill="clear" routerLink="/biomas">
+          <ion-button fill="clear" routerLink="/biomas" (click)="closeMenu()">
             <ion-icon name="cloudy-outline"></ion-icon>
             <ion-icon name="chevron-forward-outline"></ion-icon>
             <ion-label>Biomas</ion-label>
@@ -34,7 +34,7 @@
         </ion-item>
 
         <ion-item>
-          <ion-button fill="clear" routerLink="/fotos">
+          <ion-button fill="clear" routerLink="/fotos" (click)="closeMenu()">
             <ion-icon name="images-outline"></ion-icon>
             <ion-icon name="chevron-forward-outline"></ion-icon>
             <ion-label>Foro de Fotos</ion-label>
@@ -42,7 +42,7 @@
         </ion-item>
 
         <ion-item>
-          <ion-button fill="clear" routerLink="/api">
+          <ion-button fill="clear" routerLink="/api" (click)="closeMenu()">
             <ion-icon name="chevron-forward-outline"></ion-icon>
             <ion-label>Skin Jugadores</ion-label>
           </ion-button>
@@ -55,7 +55,7 @@
         </ion-item>
 
         <ion-item *ngIf="mostrarItem">
-          <ion-button fill="clear" routerLink="/read">
+          <ion-button fill="clear" routerLink="/read" (click)="closeMenu()">
             <ion-icon name="cloudy-outline"></ion-icon>
             <ion-icon name="chevron-forward-outline"></ion-icon>
             <ion-label>Listar Biomas</ion-label>
@@ -63,7 +63,7 @@
         </ion-item>
 
         <ion-item *ngIf="mostrarItem">
-          <ion-button fill="clear" routerLink="/read-usuarios">
+          <ion-button fill="clear" routerLink="/read-usuarios" (click)="closeMenu()">
             <ion-icon name="person-circle-outline"></ion-icon>
             <ion-icon name="chevron-forward-outline"></ion-icon>
             <ion-label>Listar Usuarios</ion-label>
@@ -71,7 +71,7 @@
         </ion-item>
 
         <ion-item *ngIf="mostrarItem">
-          <ion-button fill="clear" routerLink="/not-found">
+          <ion-button fill="clear" routerLink="/not-found" (click)="closeMenu()">
             <ion-icon name="chevron-forward-outline"></ion-icon>
             <ion-label>NotFound</ion-label>
           </ion-button>
