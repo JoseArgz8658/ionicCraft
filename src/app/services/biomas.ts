@@ -3,4 +3,5 @@ export class Biomas {
     minecraft_bioma_id!: string;
     bioma_nombre!: string;
     bioma_descripcion!: string;
+    bioma_image!: string;
 }

@@ -68,7 +68,11 @@ const routes: Routes = [
   {
     path: 'api',
     loadChildren: () => import('./Pages/api/api.module').then( m => m.ApiPageModule)
+  },  {
+    path: 'cambiar-contra',
+    loadChildren: () => import('./User/cambiar-contra/cambiar-contra.module').then( m => m.CambiarContraPageModule)
   },
+
 
 
 

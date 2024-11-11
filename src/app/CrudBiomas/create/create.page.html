@@ -20,18 +20,63 @@
       <ion-card-content class="card-color-fondo"><br>
         <ion-item>
           <ion-input label="Id del Bioma" labelPlacement="floating" placeholder="Ingrese el id del bioma" [(ngModel)]="minecraft_bioma_id"></ion-input>
+          <ion-icon name="information-circle-outline" slot="end" (click)="toggleHelp1()"></ion-icon>
         </ion-item>
+
+        <div *ngIf="showHelp1" class="centrar">
+          <ion-card>
+            <ion-card-header>
+              <ion-card-title>¿Como rellenar este campo?</ion-card-title>
+            </ion-card-header>
+          
+            <ion-card-content>
+              Es este campo debe ingresar un <strong>"Nombre de jugador"</strong> ejemplo <strong>"Notch"</strong> el creador del juego, si quiere la Skin de otro jugador debe ingresar el <strong>"NickName"</strong> de algun jugador de Minecraft.
+            </ion-card-content>
+          </ion-card>  
+        </div>
     
         <ion-item>
           <ion-input label="Nombre del Bioma" labelPlacement="floating" placeholder="Ingrese nombre del bioma" [(ngModel)]="bioma_nombre"></ion-input>
+          <ion-icon name="information-circle-outline" slot="end" (click)="toggleHelp2()"></ion-icon>
         </ion-item>
     
         <ion-item>
           <ion-input label="Descricion del Bioma" labelPlacement="floating" placeholder="Ingrese una descripcion del Bioma"  [(ngModel)]="bioma_descripcion"></ion-input>
+          <ion-icon name="information-circle-outline" slot="end" (click)="toggleHelp3()"></ion-icon>
         </ion-item>
 
         <div class="centrar">
           <ion-button color="success" (click)="agregar()">Agregar Bioma</ion-button>
+          <br>
+          <ion-card>
+
+            <ion-card-header class="centrar">
+              <ion-text color="danger">¿Errores?</ion-text>
+              <ion-card-title>¿Cual puede ser el error?</ion-card-title>
+            </ion-card-header>
+          
+            <ion-card-content>
+              El "Id del Bioma" debe contener al menos:
+              <ul>
+                <li>1 Letra o numero.</li>
+                <li>No debe estar vacio.</li>
+                <li>No debe contener espacios vacios.</li>
+              </ul>
+              El "Nombre del Bioma" debe contener al menos:
+              <ul>
+                <li></li>
+                <li></li>
+                <li></li>
+              </ul>
+              El "Descricion del Bioma" debe contener al menos:
+              <ul>
+                <li></li>
+                <li></li>
+                <li></li>
+              </ul>
+            </ion-card-content>
+
+          </ion-card>  
         </div>
 
       </ion-card-content>

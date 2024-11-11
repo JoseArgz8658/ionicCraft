@@ -42,47 +42,47 @@ export class RegistroPage implements OnInit {
     });
   }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   async guardar() {
     var f = this.formularioRegistro.value;
-  
+
     let missingFields: string[] = [];
-  
-    if (this.formularioRegistro.controls['nickname'].invalid) {
+
+    // Verificar que los campos no sean solo espacios vacíos
+    if (this.isEmptyOrWhitespace(f.nickname)) {
       missingFields.push('Nombre de Usuario');
     }
-    if (this.formularioRegistro.controls['email'].invalid) {
+    if (this.isEmptyOrWhitespace(f.email)) {
       missingFields.push('Email');
     }
-    if (this.formularioRegistro.controls['password'].invalid) {
+    if (this.isEmptyOrWhitespace(f.password)) {
       missingFields.push('Contraseña');
     }
-    if (this.formularioRegistro.controls['confirmPassword'].invalid) {
+    if (this.isEmptyOrWhitespace(f.confirmPassword)) {
       missingFields.push('Confirmar Contraseña');
     }
-  
+
     if (missingFields.length > 0) {
       let alertMessage = '';
-  
+
       if (missingFields.length === 1) {
-        alertMessage = 'Falta rellenar el siguiente campo: ${missingFields[0]}';
+        alertMessage = `Falta rellenar el siguiente campo: ${missingFields[0]}`;
       } else {
-        alertMessage = 'Falta rellenar más de un campo para registrarse: ' + missingFields.join(', ');
+        alertMessage = `Falta rellenar más de un campo para registrarse: ${missingFields.join(', ')}`;
       }
-  
+
       const alert = await this.alertController.create({
         header: 'Error',
         subHeader: 'Campos faltantes',
         message: alertMessage,
         buttons: ['Aceptar']
       });
-  
+
       await alert.present();
       return;
     }
-  
+
     if (f.password !== f.confirmPassword) {
       const alert = await this.alertController.create({
         header: 'Error',
@@ -90,27 +90,32 @@ export class RegistroPage implements OnInit {
         message: 'Las contraseñas no son iguales. Por favor, intenta de nuevo.',
         buttons: ['Aceptar']
       });
-  
+
       await alert.present();
       return;
     }
-  
+
     var nickname = {
       nickname: f.nickname,
       password: f.password
     }
-  
+
     localStorage.setItem('nickname', JSON.stringify(nickname));
     console.log('Registrado e Ingresando');
     this.navCtrl.navigateRoot('home');
-  
+
     const successAlert = await this.alertController.create({
       header: 'Éxito',
       subHeader: 'Registro completado',
       message: 'Usuario registrado con éxito.',
       buttons: ['Aceptar']
     });
-  
+
     await successAlert.present();
+  }
+
+  // Método para verificar si el valor es un espacio vacío
+  isEmptyOrWhitespace(str: string): boolean {
+    return !str || str.trim().length === 0;
   }
 }

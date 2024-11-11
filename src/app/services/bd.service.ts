@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { SQLite, SQLiteObject } from '@awesome-cordova-plugins/sqlite/ngx';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { AlertController, Platform } from '@ionic/angular';
+
 import { Biomas } from './biomas';
 import { Usuarios } from './usuarios';
 import { Foros } from './foros';
-import { AlertController, Platform } from '@ionic/angular';
 
 @Injectable({
   providedIn: 'root'
@@ -12,69 +13,70 @@ import { AlertController, Platform } from '@ionic/angular';
 export class BdService {
   public database!: SQLiteObject;
   //Creacion de las tablas
-  tablaBiomas: string = "CREATE TABLE IF NOT EXISTS bioma(bioma_id INTEGER PRIMARY KEY AUTOINCREMENT, minecraft_bioma_id VARCHAR(100) NOT NULL, bioma_nombre VARCHAR(50) NOT NULL, bioma_descripcion TEXT NOT NULL);";
+  tablaBiomas: string = "CREATE TABLE IF NOT EXISTS bioma(bioma_id INTEGER PRIMARY KEY AUTOINCREMENT, minecraft_bioma_id VARCHAR(100) NOT NULL, bioma_nombre VARCHAR(50) NOT NULL, bioma_descripcion TEXT NOT NULL, bioma_image BLOB NOT NULL);";
 
   tablaUsuarios: string = "CREATE TABLE IF NOT EXISTS usuario(usuario_id INTEGER PRIMARY KEY AUTOINCREMENT, usuario_tipo VARCHAR(10) NOT NULL, usuario_apodo VARCHAR(15) NOT NULL UNIQUE, usuario_gmail VARCHAR(100) NOT NULL UNIQUE, usuario_password VARCHAR(100) NOT NULL);";
 
   tablaForos: string = "CREATE TABLE IF NOT EXISTS foro(foro_id INTEGER PRIMARY KEY AUTOINCREMENT, foro_titulo VARCHAR(50) NOT NULL, foro_descripcion TEXT NOT NULL);";
   //Insertar los datos a las tablas
-  registroBioma1: string = "INSERT or IGNORE INTO bioma(bioma_id, minecraft_bioma_id, bioma_nombre, bioma_descripcion) VALUES (1, 'dark_forest', 'Bosque Oscuro', 'Un bioma denso donde los árboles gigantes impiden que la luz solar alcance el suelo, creando áreas oscuras.');";
+  registroBioma1: string = "INSERT or IGNORE INTO bioma(bioma_id, minecraft_bioma_id, bioma_nombre, bioma_descripcion) VALUES (1, 'dark_forest', 'Bosque Oscuro', 'Un bioma denso donde los árboles gigantes impiden que la luz solar alcance el suelo, creando áreas oscuras.', ?);";
 
-  registroBioma2: string = "INSERT or IGNORE INTO bioma(bioma_id, minecraft_bioma_id, bioma_nombre, bioma_descripcion) VALUES (2, 'desert', 'Desierto', 'Un bioma árido con vastas dunas de arena, cactus y muy poca vegetación. Hogar de pirámides y pozos.');";
+  //registroBioma2: string = "INSERT or IGNORE INTO bioma(bioma_id, minecraft_bioma_id, bioma_nombre, bioma_descripcion) VALUES (2, 'desert', 'Desierto', 'Un bioma árido con vastas dunas de arena, cactus y muy poca vegetación. Hogar de pirámides y pozos.');";
   
-  registroBioma3: string = "INSERT or IGNORE INTO bioma(bioma_id, minecraft_bioma_id, bioma_nombre, bioma_descripcion) VALUES (3, 'the_end', 'El End', 'Una dimensión misteriosa y oscura, hogar de los Enderman y el dragón del End. Su paisaje está formado por islas flotantes y estructuras antiguas.');";
+  //registroBioma3: string = "INSERT or IGNORE INTO bioma(bioma_id, minecraft_bioma_id, bioma_nombre, bioma_descripcion) VALUES (3, 'the_end', 'El End', 'Una dimensión misteriosa y oscura, hogar de los Enderman y el dragón del End. Su paisaje está formado por islas flotantes y estructuras antiguas.');";
 
-  registroBioma4: string = "INSERT or IGNORE INTO bioma(bioma_id, minecraft_bioma_id, bioma_nombre, bioma_descripcion) VALUES (4, 'plains', 'Llanuras', 'Un bioma extenso y plano con pastos verdes, ideal para la construcción de estructuras y la cría de animales.');";
+  //registroBioma4: string = "INSERT or IGNORE INTO bioma(bioma_id, minecraft_bioma_id, bioma_nombre, bioma_descripcion) VALUES (4, 'plains', 'Llanuras', 'Un bioma extenso y plano con pastos verdes, ideal para la construcción de estructuras y la cría de animales.');";
   
-  registroBioma5: string = "INSERT or IGNORE INTO bioma(bioma_id, minecraft_bioma_id, bioma_nombre, bioma_descripcion) VALUES (5, 'jungle', 'Jungla', 'Un bioma denso con árboles altos y enredaderas, hogar de loros, ocelotes y templos antiguos.');";
+  //registroBioma5: string = "INSERT or IGNORE INTO bioma(bioma_id, minecraft_bioma_id, bioma_nombre, bioma_descripcion) VALUES (5, 'jungle', 'Jungla', 'Un bioma denso con árboles altos y enredaderas, hogar de loros, ocelotes y templos antiguos.');";
   
-  registroBioma6: string = "INSERT or IGNORE INTO bioma(bioma_id, minecraft_bioma_id, bioma_nombre, bioma_descripcion) VALUES (6, 'savanna', 'Sabana', 'Un bioma cálido y seco, con árboles de acacia y terrenos abiertos. Aquí se pueden encontrar aldeas y animales como caballos y llamas.');";
+  //registroBioma6: string = "INSERT or IGNORE INTO bioma(bioma_id, minecraft_bioma_id, bioma_nombre, bioma_descripcion) VALUES (6, 'savanna', 'Sabana', 'Un bioma cálido y seco, con árboles de acacia y terrenos abiertos. Aquí se pueden encontrar aldeas y animales como caballos y llamas.');";
   
-  registroBioma7: string = "INSERT or IGNORE INTO bioma(bioma_id, minecraft_bioma_id, bioma_nombre, bioma_descripcion) VALUES (7, 'taiga', 'Taiga', 'Un bioma frío con coníferas, lobos y nieve en las montañas más altas. Ideal para la supervivencia en climas extremos.');";
+  //registroBioma7: string = "INSERT or IGNORE INTO bioma(bioma_id, minecraft_bioma_id, bioma_nombre, bioma_descripcion) VALUES (7, 'taiga', 'Taiga', 'Un bioma frío con coníferas, lobos y nieve en las montañas más altas. Ideal para la supervivencia en climas extremos.');";
   
-  registroBioma8: string = "INSERT or IGNORE INTO bioma(bioma_id, minecraft_bioma_id, bioma_nombre, bioma_descripcion) VALUES (8, 'swamp', 'Pantano', 'Un bioma pantanoso con agua estancada, árboles de roble cubiertos de enredaderas y hogares de brujas.');";
+  //registroBioma8: string = "INSERT or IGNORE INTO bioma(bioma_id, minecraft_bioma_id, bioma_nombre, bioma_descripcion) VALUES (8, 'swamp', 'Pantano', 'Un bioma pantanoso con agua estancada, árboles de roble cubiertos de enredaderas y hogares de brujas.');";
   
-  registroBioma9: string = "INSERT or IGNORE INTO bioma(bioma_id, minecraft_bioma_id, bioma_nombre, bioma_descripcion) VALUES (9, 'mountains', 'Montañas', 'Un bioma montañoso con picos altos y riscos empinados, donde la nieve cubre las cumbres más elevadas.');";
+  //registroBioma9: string = "INSERT or IGNORE INTO bioma(bioma_id, minecraft_bioma_id, bioma_nombre, bioma_descripcion) VALUES (9, 'mountains', 'Montañas', 'Un bioma montañoso con picos altos y riscos empinados, donde la nieve cubre las cumbres más elevadas.');";
   
-  registroBioma10: string = "INSERT or IGNORE INTO bioma(bioma_id, minecraft_bioma_id, bioma_nombre, bioma_descripcion) VALUES (10, 'snowy_plains', 'Llanura Nevada', 'Un bioma helado con grandes áreas de nieve y muy poca vegetación. Los iglús pueden encontrarse aquí.');";
+  //registroBioma10: string = "INSERT or IGNORE INTO bioma(bioma_id, minecraft_bioma_id, bioma_nombre, bioma_descripcion) VALUES (10, 'snowy_plains', 'Llanura Nevada', 'Un bioma helado con grandes áreas de nieve y muy poca vegetación. Los iglús pueden encontrarse aquí.');";
   
-  registroBioma11: string = "INSERT or IGNORE INTO bioma(bioma_id, minecraft_bioma_id, bioma_nombre, bioma_descripcion) VALUES (11, 'mushroom_fields', 'Campos de Hongos', 'Un bioma raro cubierto de hongos gigantes, hogar de las vacas champiñón.');";
+  //registroBioma11: string = "INSERT or IGNORE INTO bioma(bioma_id, minecraft_bioma_id, bioma_nombre, bioma_descripcion) VALUES (11, 'mushroom_fields', 'Campos de Hongos', 'Un bioma raro cubierto de hongos gigantes, hogar de las vacas champiñón.');";
   
-  registroBioma12: string = "INSERT or IGNORE INTO bioma(bioma_id, minecraft_bioma_id, bioma_nombre, bioma_descripcion) VALUES (12, 'badlands', 'Tierras Baldías', 'Un bioma seco y árido con montañas de terracota de colores brillantes. Los mineshafts son comunes aquí.');";
+  //registroBioma12: string = "INSERT or IGNORE INTO bioma(bioma_id, minecraft_bioma_id, bioma_nombre, bioma_descripcion) VALUES (12, 'badlands', 'Tierras Baldías', 'Un bioma seco y árido con montañas de terracota de colores brillantes. Los mineshafts son comunes aquí.');";
   
-  registroBioma13: string = "INSERT or IGNORE INTO bioma(bioma_id, minecraft_bioma_id, bioma_nombre, bioma_descripcion) VALUES (13, 'beach', 'Playa', 'Un bioma estrecho de arena junto a cuerpos de agua como océanos, ríos o lagos.');";
+  //registroBioma13: string = "INSERT or IGNORE INTO bioma(bioma_id, minecraft_bioma_id, bioma_nombre, bioma_descripcion) VALUES (13, 'beach', 'Playa', 'Un bioma estrecho de arena junto a cuerpos de agua como océanos, ríos o lagos.');";
   
-  registroBioma14: string = "INSERT or IGNORE INTO bioma(bioma_id, minecraft_bioma_id, bioma_nombre, bioma_descripcion) VALUES (14, 'forest', 'Bosque', 'Un bioma lleno de árboles de roble y abeto. Es uno de los biomas más comunes.');";
+  //registroBioma14: string = "INSERT or IGNORE INTO bioma(bioma_id, minecraft_bioma_id, bioma_nombre, bioma_descripcion) VALUES (14, 'forest', 'Bosque', 'Un bioma lleno de árboles de roble y abeto. Es uno de los biomas más comunes.');";
   
-  registroBioma15: string = "INSERT or IGNORE INTO bioma(bioma_id, minecraft_bioma_id, bioma_nombre, bioma_descripcion) VALUES (15, 'nether_wastes', 'Desiertos Del Nether', 'El bioma más común del Nether, con grandes áreas de netherrack y lava.');";
+  //registroBioma15: string = "INSERT or IGNORE INTO bioma(bioma_id, minecraft_bioma_id, bioma_nombre, bioma_descripcion) VALUES (15, 'nether_wastes', 'Desiertos Del Nether', 'El bioma más común del Nether, con grandes áreas de netherrack y lava.');";
   
-  registroBioma16: string = "INSERT or IGNORE INTO bioma(bioma_id, minecraft_bioma_id, bioma_nombre, bioma_descripcion) VALUES (16, 'crimson_forest', 'Bosque Carmesí', 'Un bioma del Nether con hongos gigantes y criaturas hostiles como piglins y hoglins.');";
+  //registroBioma16: string = "INSERT or IGNORE INTO bioma(bioma_id, minecraft_bioma_id, bioma_nombre, bioma_descripcion) VALUES (16, 'crimson_forest', 'Bosque Carmesí', 'Un bioma del Nether con hongos gigantes y criaturas hostiles como piglins y hoglins.');";
   
-  registroBioma17: string = "INSERT or IGNORE INTO bioma(bioma_id, minecraft_bioma_id, bioma_nombre, bioma_descripcion) VALUES (17, 'warped_forest', 'Bosque Distorsionado', 'Un bioma del Nether de color azul-verde, hogar de Enderman y estructuras extrañas.');";
+  //registroBioma17: string = "INSERT or IGNORE INTO bioma(bioma_id, minecraft_bioma_id, bioma_nombre, bioma_descripcion) VALUES (17, 'warped_forest', 'Bosque Distorsionado', 'Un bioma del Nether de color azul-verde, hogar de Enderman y estructuras extrañas.');";
   
-  registroBioma18: string = "INSERT or IGNORE INTO bioma(bioma_id, minecraft_bioma_id, bioma_nombre, bioma_descripcion) VALUES (18, 'soul_sand_valley', 'Valle de Almas', 'Un bioma del Nether con grandes cantidades de arena de almas y columnas de basalto.');";
+  //registroBioma18: string = "INSERT or IGNORE INTO bioma(bioma_id, minecraft_bioma_id, bioma_nombre, bioma_descripcion) VALUES (18, 'soul_sand_valley', 'Valle de Almas', 'Un bioma del Nether con grandes cantidades de arena de almas y columnas de basalto.');";
   
-  registroBioma19: string = "INSERT or IGNORE INTO bioma(bioma_id, minecraft_bioma_id, bioma_nombre, bioma_descripcion) VALUES (19, 'basalt_deltas', 'Deltas de Basalto', 'Un bioma volcánico en el Nether, lleno de columnas de basalto y magma.');";
+  //registroBioma19: string = "INSERT or IGNORE INTO bioma(bioma_id, minecraft_bioma_id, bioma_nombre, bioma_descripcion) VALUES (19, 'basalt_deltas', 'Deltas de Basalto', 'Un bioma volcánico en el Nether, lleno de columnas de basalto y magma.');";
   
-  registroBioma20: string = "INSERT or IGNORE INTO bioma(bioma_id, minecraft_bioma_id, bioma_nombre, bioma_descripcion) VALUES (20, 'ice_spikes', 'Picos de Hielo', 'Un bioma helado con grandes estructuras de hielo en forma de picos, un paisaje impresionante.');";
+  //registroBioma20: string = "INSERT or IGNORE INTO bioma(bioma_id, minecraft_bioma_id, bioma_nombre, bioma_descripcion) VALUES (20, 'ice_spikes', 'Picos de Hielo', 'Un bioma helado con grandes estructuras de hielo en forma de picos, un paisaje impresionante.');";
   
-  registroBioma21: string = "INSERT or IGNORE INTO bioma(bioma_id, minecraft_bioma_id, bioma_nombre, bioma_descripcion) VALUES (21, 'meadow', 'Prado', 'Un bioma montañoso cubierto de flores, ideal para aldeas y la crianza de animales.');";
+  //registroBioma21: string = "INSERT or IGNORE INTO bioma(bioma_id, minecraft_bioma_id, bioma_nombre, bioma_descripcion) VALUES (21, 'meadow', 'Prado', 'Un bioma montañoso cubierto de flores, ideal para aldeas y la crianza de animales.');";
   
-  registroBioma22: string = "INSERT or IGNORE INTO bioma(bioma_id, minecraft_bioma_id, bioma_nombre, bioma_descripcion) VALUES (22, 'lush_caves', 'Cuevas Frondosas', 'Un bioma subterráneo con plantas exóticas, lagos de agua y criaturas amigables como los ajolotes.');";
+  //registroBioma22: string = "INSERT or IGNORE INTO bioma(bioma_id, minecraft_bioma_id, bioma_nombre, bioma_descripcion) VALUES (22, 'lush_caves', 'Cuevas Frondosas', 'Un bioma subterráneo con plantas exóticas, lagos de agua y criaturas amigables como los ajolotes.');";
   
-  registroBioma23: string = "INSERT or IGNORE INTO bioma(bioma_id, minecraft_bioma_id, bioma_nombre, bioma_descripcion) VALUES (23, 'dripstone_caves', 'Cuevas de Estalactitas', 'Un bioma subterráneo con formaciones rocosas puntiagudas, estalactitas y estalagmitas.');";
+  //registroBioma23: string = "INSERT or IGNORE INTO bioma(bioma_id, minecraft_bioma_id, bioma_nombre, bioma_descripcion) VALUES (23, 'dripstone_caves', 'Cuevas de Estalactitas', 'Un bioma subterráneo con formaciones rocosas puntiagudas, estalactitas y estalagmitas.');";
   
-  registroBioma24: string = "INSERT or IGNORE INTO bioma(bioma_id, minecraft_bioma_id, bioma_nombre, bioma_descripcion) VALUES (24, 'deep_dark', 'Oscuridad Profunda', 'Un bioma subterráneo peligroso, hogar del Warden y las misteriosas ciudades antiguas.');";
+  //registroBioma24: string = "INSERT or IGNORE INTO bioma(bioma_id, minecraft_bioma_id, bioma_nombre, bioma_descripcion) VALUES (24, 'deep_dark', 'Oscuridad Profunda', 'Un bioma subterráneo peligroso, hogar del Warden y las misteriosas ciudades antiguas.');";
   
-  registroBioma25: string = "INSERT or IGNORE INTO bioma(bioma_id, minecraft_bioma_id, bioma_nombre, bioma_descripcion) VALUES (25, 'ocean', 'Océano', 'Un bioma marino extenso que cubre la mayor parte del mundo de Minecraft, hogar de criaturas acuáticas como delfines y peces.');";
+  //registroBioma25: string = "INSERT or IGNORE INTO bioma(bioma_id, minecraft_bioma_id, bioma_nombre, bioma_descripcion) VALUES (25, 'ocean', 'Océano', 'Un bioma marino extenso que cubre la mayor parte del mundo de Minecraft, hogar de criaturas acuáticas como delfines y peces.');";
   
-  registroBioma26: string = "INSERT or IGNORE INTO bioma(bioma_id, minecraft_bioma_id, bioma_nombre, bioma_descripcion) VALUES (26, 'warm_ocean', 'Océano Cálido', 'Un bioma oceánico con aguas cálidas y arrecifes de coral, hogar de peces tropicales.');";
+  //registroBioma26: string = "INSERT or IGNORE INTO bioma(bioma_id, minecraft_bioma_id, bioma_nombre, bioma_descripcion) VALUES (26, 'warm_ocean', 'Océano Cálido', 'Un bioma oceánico con aguas cálidas y arrecifes de coral, hogar de peces tropicales.');";
   
-  registroBioma27: string = "INSERT or IGNORE INTO bioma(bioma_id, minecraft_bioma_id, bioma_nombre, bioma_descripcion) VALUES (27, 'frozen_ocean', 'Océano Congelado', 'Un bioma oceánico con grandes icebergs y criaturas como osos polares.');";
+  //registroBioma27: string = "INSERT or IGNORE INTO bioma(bioma_id, minecraft_bioma_id, bioma_nombre, bioma_descripcion) VALUES (27, 'frozen_ocean', 'Océano Congelado', 'Un bioma oceánico con grandes icebergs y criaturas como osos polares.');";
   
-  registroBioma28: string = "INSERT or IGNORE INTO bioma(bioma_id, minecraft_bioma_id, bioma_nombre, bioma_descripcion) VALUES (28, 'river', 'Río', 'Un bioma acuático que serpentea a través de otros biomas, ideal para la pesca y el transporte en bote.');";
+  //registroBioma28: string = "INSERT or IGNORE INTO bioma(bioma_id, minecraft_bioma_id, bioma_nombre, bioma_descripcion) VALUES (28, 'river', 'Río', 'Un bioma acuático que serpentea a través de otros biomas, ideal para la pesca y el transporte en bote.');";
 
   registroUsuario1: string = "INSERT OR IGNORE INTO usuario(usuario_id, usuario_tipo, usuario_apodo, usuario_gmail, usuario_password) VALUES ('1', 'admin', 'admin', 'admin@admin.admin', 'admin');";
+  
   registroUsuario2: string = "INSERT OR IGNORE INTO usuario(usuario_id, usuario_tipo, usuario_apodo, usuario_gmail, usuario_password) VALUES ('2', 'usuario', 'JoseArgz', 'jo.aranguiza@gmail.com', 'duoc2024');";
 
   registroForo1: string = "INSERT OR IGNORE INTO foro(foro_id, foro_titulo, foro_descripcion) VALUES (1, 'Bienvenido al Foro de ionicCraft', 'Este es el foro donde puedes subir tus opiniones a los usuarios en general, disfruta y diviertete en el foro.');";
@@ -119,34 +121,7 @@ export class BdService {
 
       await this.database.executeSql(this.tablaForos, []);
 
-      await this.database.executeSql(this.registroBioma1, []);
-      await this.database.executeSql(this.registroBioma2, []);
-      await this.database.executeSql(this.registroBioma3, []);
-      await this.database.executeSql(this.registroBioma4, []);
-      await this.database.executeSql(this.registroBioma5, []);
-      await this.database.executeSql(this.registroBioma6, []);
-      await this.database.executeSql(this.registroBioma7, []);
-      await this.database.executeSql(this.registroBioma8, []);
-      await this.database.executeSql(this.registroBioma9, []);
-      await this.database.executeSql(this.registroBioma10, []);
-      await this.database.executeSql(this.registroBioma11, []);
-      await this.database.executeSql(this.registroBioma12, []);
-      await this.database.executeSql(this.registroBioma13, []);
-      await this.database.executeSql(this.registroBioma14, []);
-      await this.database.executeSql(this.registroBioma15, []);
-      await this.database.executeSql(this.registroBioma16, []);
-      await this.database.executeSql(this.registroBioma17, []);
-      await this.database.executeSql(this.registroBioma18, []);
-      await this.database.executeSql(this.registroBioma19, []);
-      await this.database.executeSql(this.registroBioma20, []);
-      await this.database.executeSql(this.registroBioma21, []);
-      await this.database.executeSql(this.registroBioma22, []);
-      await this.database.executeSql(this.registroBioma23, []);
-      await this.database.executeSql(this.registroBioma24, []);
-      await this.database.executeSql(this.registroBioma25, []);
-      await this.database.executeSql(this.registroBioma26, []);
-      await this.database.executeSql(this.registroBioma27, []);
-      await this.database.executeSql(this.registroBioma28, []);
+      await this.database.executeSql(this.registroBioma1, [])
 
       await this.database.executeSql(this.registroUsuario1, []);
       await this.database.executeSql(this.registroUsuario2, []);
@@ -155,7 +130,7 @@ export class BdService {
 
 
     }catch(e){
-      this.presentAlert('CrearTabla()', 'Error: ' + JSON.stringify(e));
+      this.presentAlert('CrearTablas()', 'Error: ' + JSON.stringify(e));
     }
   }
 
@@ -175,15 +150,16 @@ export class BdService {
     return this.isDBReady.asObservable();
   }
 
-  async presentAlert(titulo:string, msj:string) {
-    const alert = await this.alertController.create({
-      header: titulo,
-      message: msj,
-      buttons: ['OK'],
-    });
+async presentAlert(titulo:string, msj:string) {
+  const alert = await this.alertController.create({
+    header: titulo,
+    message: msj,
+    buttons: ['OK'],
+  });
 
-    await alert.present();
-  }
+  await alert.present();
+}
+
   //Tabla Biomas
   traerBiomas(){
     return this.database.executeSql('SELECT * FROM bioma',[]).then(res=>{
@@ -198,7 +174,8 @@ export class BdService {
             bioma_id: res.rows.item(i).bioma_id,
             minecraft_bioma_id: res.rows.item(i).minecraft_bioma_id,
             bioma_nombre: res.rows.item(i).bioma_nombre,
-            bioma_descripcion: res.rows.item(i).bioma_descripcion
+            bioma_descripcion: res.rows.item(i).bioma_descripcion,
+            bioma_image: res.rows.item(i).bioma_image
           })
         }
       }
