@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-perfil',
@@ -8,7 +7,7 @@ import { AlertController } from '@ionic/angular';
 })
 export class PerfilPage implements OnInit {
 
-  constructor(public alertController: AlertController) { }
+  constructor() { }
 
   ngOnInit() { }
 

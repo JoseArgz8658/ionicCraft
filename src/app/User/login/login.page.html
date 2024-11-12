@@ -16,31 +16,68 @@
     </ion-header>
     <br>
     <ion-card>
+
       <ion-card-header class="card-color-fondo-letras">
         <div class="centrar">
           <h2>Bienvenido</h2>
           <p>Ingrese su usuario u correo y contraseña para iniciar sesión.</p>
         </div>
       </ion-card-header>
+      
       <ion-card-content class="card-color-fondo"><br>
-        <form [formGroup]="formularioLogin" (ngSubmit)="iniciarSesion()">
-          <ion-item>
-            <ion-icon name="person-outline"></ion-icon>
-            <ion-input formControlName="nickname" labelPlacement="floating" placeholder="Nombre de Usuario">
-              <div slot="label">Nombre de Usuario o correo</div>
-            </ion-input>
-          </ion-item>
-          <ion-item>
-            <ion-icon name="lock-closed-outline"></ion-icon>
-            <ion-input formControlName="password" labelPlacement="floating" type="password" placeholder="Contraseña">
-              <div slot="label">Contraseña</div>
-            </ion-input>
-          </ion-item>
-          <div class="centrar">
-            <ion-button expand="full" type="submit">Iniciar Sesión</ion-button>
-          </div>
-        </form>
+
+        <ion-item>
+          <ion-icon name="person-outline"></ion-icon>
+          <ion-input [(ngModel)]="usuario_apodo" type="text" labelPlacement="floating" placeholder="Apodo">
+            <div slot="label">Ingrese su Apodo</div>
+          </ion-input>
+          <ion-button color="light" shape="round" slot="end" (click)="toggleHelp1()">
+            <ion-icon color="dark" name="information-circle-outline" style="font-size: 30px;"></ion-icon>
+          </ion-button>
+        </ion-item>
+
+        <div *ngIf="showHelp1" class="centrar">
+          <ion-card>
+            <ion-card-header>
+              <ion-card-title>¿Que hago?</ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+              Si esta Registrado, ingrese su <strong>"Apodo"</strong> que se ah puesto en este campo, ejemplo:
+              <br><br>
+              <li><strong>JoseA</strong></li>
+            </ion-card-content>
+          </ion-card>  
+        </div>
+
+        <ion-item>
+          <ion-icon name="lock-closed-outline"></ion-icon>
+          <ion-input [(ngModel)]="usuario_password" labelPlacement="floating" type="password" placeholder="Contraseña">
+            <div slot="label">Contraseña</div>
+          </ion-input>
+          <ion-button color="light" shape="round" slot="end" (click)="toggleHelp2()">
+            <ion-icon color="dark" name="information-circle-outline" style="font-size: 30px;"></ion-icon>
+          </ion-button>
+        </ion-item>
+
+        <div *ngIf="showHelp2" class="centrar">
+          <ion-card>
+            <ion-card-header>
+              <ion-card-title>¿Que hago?</ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+              Si esta Registrado ingrese su <strong>"Contraseña"</strong> que coincida con su <strong>Apodo</strong> en este campo, ejemplo:
+              <br><br>
+              <li><strong>JoseA</strong> = <strong>JoseContra11!</strong></li>
+            </ion-card-content>
+          </ion-card>  
+        </div>
+
+        <div class="centrar">
+          <ion-button expand="full" color="success" (click)="iniciarSesion()">Iniciar Sesión</ion-button>
+        </div>
+
       </ion-card-content>
+      
     </ion-card>
   </ion-content>
 </div>

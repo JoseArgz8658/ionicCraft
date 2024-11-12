@@ -20,10 +20,6 @@ const routes: Routes = [
     loadChildren: () => import('./Pages/perfil/perfil.module').then( m => m.PerfilPageModule)
   },
   {
-    path: 'registro',
-    loadChildren: () => import('./User/registro/registro.module').then( m => m.RegistroPageModule)
-  },
-  {
     path: 'login',
     loadChildren: () => import('./User/login/login.module').then( m => m.LoginPageModule)
   },
@@ -68,7 +64,8 @@ const routes: Routes = [
   {
     path: 'api',
     loadChildren: () => import('./Pages/api/api.module').then( m => m.ApiPageModule)
-  },  {
+  },
+  {
     path: 'cambiar-contra',
     loadChildren: () => import('./User/cambiar-contra/cambiar-contra.module').then( m => m.CambiarContraPageModule)
   },

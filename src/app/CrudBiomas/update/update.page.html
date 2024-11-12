@@ -13,29 +13,117 @@
       <ion-card-header class="card-color-fondo-letras">
         <div class="centrar">
           <h2>Modificar Bioma</h2>
-          <p>Para modificar los datos del bioma, cambie cualquier datos que quiera para despues presionar el boton modificar bioma.</p>
+          <p>Para modificar los datos del bioma, cambie cualquier datos que quiera para después presionar el botón Modificar Bioma.</p>
         </div>
       </ion-card-header>
 
       <ion-card-content class="card-color-fondo"><br>
+
         <ion-item>
-          <ion-input label="Nombre el id del Bioma" labelPlacement="floating" placeholder="Ingrese el id del bioma" [(ngModel)]="biomas.minecraft_bioma_id"></ion-input>
+          <ion-input label="Minecraft id bioma" labelPlacement="floating" placeholder="mi_nuevo_id_bioma" [(ngModel)]="biomas.minecraft_bioma_id" [attr.pattern]="'^[a-z0-9_]+$'" [attr.maxlength]="50" required></ion-input>
+          <ion-button color="light" shape="round" slot="end" (click)="toggleHelp1()">
+            <ion-icon color="dark" name="information-circle-outline" style="font-size: 30px;"></ion-icon>
+          </ion-button>
         </ion-item>
-    
-        <ion-item>
-          <ion-input label="Nombre del Bioma" labelPlacement="floating" placeholder="Ingrese el nombre del bioma" [(ngModel)]="biomas.bioma_nombre"></ion-input>
-        </ion-item>
-    
-        <ion-item>
-          <ion-input label="Descripcion del bioma" labelPlacement="floating" placeholder="Ingrese la descripcion"  [(ngModel)]="biomas.bioma_descripcion"></ion-input>
-        </ion-item>
-    
-        <div class="centrar">
-          <ion-button color="success" (click)="update()">Modificar Bioma</ion-button>
+
+        <div *ngIf="showHelp1" class="centrar">
+          <ion-card>
+            <ion-card-header>
+              <ion-card-title>¿Que hago?</ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+              Ingrese un <strong>"Minecraft id bioma"</strong> en este campo, ejemplo:
+              <br><br>
+              <li><strong>mi_nuevo_id_bioma</strong></li>
+              <br>
+              Para más información, presione el botón de ayuda <ion-icon color="warning" name="information-circle-outline"></ion-icon> al final de la página.
+            </ion-card-content>
+          </ion-card>  
         </div>
+
+        <ion-item>
+          <ion-input label="Nombre del Bioma" labelPlacement="floating" placeholder="Mi nuevo Bioma" [(ngModel)]="biomas.bioma_nombre" [attr.pattern]="'^[a-zA-Z\s]+$'" [attr.maxlength]="50" required></ion-input>
+          <ion-button color="light" shape="round" slot="end" (click)="toggleHelp2()">
+            <ion-icon color="dark" name="information-circle-outline" style="font-size: 30px;"></ion-icon>
+          </ion-button>
+        </ion-item>
+
+        <div *ngIf="showHelp2" class="centrar">
+          <ion-card>
+            <ion-card-header>
+              <ion-card-title>¿Que hago?</ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+              Ingrese un <strong>"Nombre del Bioma"</strong> en este campo, ejemplo:
+              <br><br>
+              <li><strong>Mi nuevo Bioma</strong></li>
+              <br>
+              Para más información, presione el botón de ayuda <ion-icon color="warning" name="information-circle-outline"></ion-icon> al final de la página.
+            </ion-card-content>
+          </ion-card>  
+        </div>
+
+        <ion-item>
+          <ion-input label="Descripción del Bioma" labelPlacement="floating" placeholder="Este es mi nuevo bioma..." [(ngModel)]="biomas.bioma_descripcion" [attr.pattern]="'^[a-zA-Z\s]+$'" [attr.maxlength]="300" required></ion-input>
+          <ion-button color="light" shape="round" slot="end" (click)="toggleHelp3()">
+            <ion-icon color="dark" name="information-circle-outline" style="font-size: 30px;"></ion-icon>
+          </ion-button>
+        </ion-item>
+
+        <div *ngIf="showHelp3" class="centrar">
+          <ion-card>
+            <ion-card-header>
+              <ion-card-title>¿Que hago?</ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+              Ingrese una <strong>"Descripción del Bioma"</strong> en este campo, ejemplo:
+              <br><br>
+              <li><strong>Este es mi nuevo bioma...</strong></li>
+              <br>
+              Para más información, presione el botón de ayuda <ion-icon color="warning" name="information-circle-outline"></ion-icon> al final de la página.
+            </ion-card-content>
+          </ion-card>  
+        </div>
+
+        <div class="centrar">
+          <ion-button expand="full" color="success" (click)="update()">Modificar Bioma</ion-button>
+        </div>
+
+        <div class="centrar">
+          <ion-button color="light" shape="round" (click)="toggleHelp4()">
+            <ion-icon color="warning" name="information-circle-outline" style="font-size: 30px;"></ion-icon>
+          </ion-button>
+        </div>
+
+        <ion-card *ngIf="showHelp4">
+          <ion-card-header class="centrar">
+            <ion-card-title>¿Ayuda?</ion-card-title>
+            <ion-card-subtitle>Requisitos a pensar.</ion-card-subtitle>
+          </ion-card-header>
+          <ion-card-content>
+            <strong>Minecraft id bioma:</strong>
+            <ul>
+              <li>Solo letras minúsculas, números y guiones bajos</li>
+              <li>No debe tener espacios vacíos</li>
+              <li>Máximo 50 caracteres</li>
+            </ul>
+            <strong>Nombre del Bioma:</strong>
+            <ul>
+              <li>Puede contener letras mayúsculas y minúsculas</li>
+              <li>No debe contener números ni caracteres especiales</li>
+              <li>No debe tener espacios vacíos</li>
+              <li>Máximo 50 caracteres</li>
+            </ul>
+            <strong>Descripción del Bioma:</strong>
+            <ul>
+              <li>Solo letras y espacios</li>
+              <li>No debe contener caracteres especiales</li>
+              <li>Máximo 300 caracteres</li>
+            </ul>
+          </ion-card-content>
+        </ion-card> 
 
       </ion-card-content>
     </ion-card>
-
   </ion-content>
 </div>

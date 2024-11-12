@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { AlertController, NavController } from '@ionic/angular';
+import { BdService } from 'src/app/services/bd.service';
+import { AlertController } from '@ionic/angular';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -9,50 +10,40 @@ import { AlertController, NavController } from '@ionic/angular';
 })
 export class LoginPage implements OnInit {
 
-  formularioLogin: FormGroup;
-  usuarios: any[] = [
-    { nickname: 'admin', email: 'admin@admin.admin', password: 'admin' },
-    { nickname: 'Jose', email: 'jo.aranguiza@duocuc.cl', password: 'Duoc2024!' }
-  ];
+  usuario_apodo: string = '';
+  usuario_password: string = '';
 
-  constructor(
-    private fb: FormBuilder,
-    public alertController: AlertController,
-    public navCtrl: NavController
-  ) {
-    this.formularioLogin = this.fb.group({
-      'nickname': ['', Validators.required],
-      'password': ['', Validators.required]
-    });
-  }
+  showHelp1: boolean = false;
+  showHelp2: boolean = false;
+
+  constructor(private bd: BdService, private alertController: AlertController, private router: Router) { }
 
   ngOnInit() {}
 
   async iniciarSesion() {
-    const f = this.formularioLogin.value;
-
-    const usuarioEncontrado = this.usuarios.find(usuario => 
-      usuario.nickname === f.nickname && usuario.password === f.password
-    );
-
-    if (usuarioEncontrado) {
-      localStorage.setItem('nickname', JSON.stringify(usuarioEncontrado.nickname));
-      console.log('Usuario ingresado: ', usuarioEncontrado.nickname);
-      this.navCtrl.navigateRoot('home');
-      
-      const successAlert = await this.alertController.create({
-        header: 'Éxito',
-        message: 'Iniciaste sesión correctamente.',
-        buttons: ['Aceptar']
-      });
-      await successAlert.present();
+    const usuarioExiste = await this.bd.verificarUsuario(this.usuario_apodo, this.usuario_password);
+    if (usuarioExiste) {
+      this.mostrarAlerta('Éxito', 'Inicio de sesión exitoso');
+      this.router.navigate(['/perfil']);
     } else {
-      const errorAlert = await this.alertController.create({
-        header: 'Error',
-        message: 'Credenciales incorrectas. Por favor, intenta de nuevo.',
-        buttons: ['Aceptar']
-      });
-      await errorAlert.present();
+      this.mostrarAlerta('Error', 'Usuario o contraseña incorrectos');
     }
+  }
+
+  toggleHelp1() {
+    this.showHelp1 = !this.showHelp1;
+  }
+
+  toggleHelp2() {
+    this.showHelp2 = !this.showHelp2;
+  }
+
+  async mostrarAlerta(titulo: string, mensaje: string) {
+    const alert = await this.alertController.create({
+      header: titulo,
+      message: mensaje,
+      buttons: ['OK']
+    });
+    await alert.present();
   }
 }

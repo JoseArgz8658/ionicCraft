@@ -12,34 +12,151 @@
     <ion-card>
       <ion-card-header class="card-color-fondo-letras">
         <div class="centrar">
-          <h2>Modificar el Usurio</h2>
-          <p>Para modificar los datos del usuario, cambie cualquier datos que quiera para despues presionar el boton modificar usuario.</p>
+          <h2>Modificar Usuario</h2>
+          <p>Para modificar los datos del usuario, cambie cualquier dato que desee y presione el botón "Modificar Usuario".</p>
         </div>
       </ion-card-header>
 
       <ion-card-content class="card-color-fondo"><br>
-        <ion-item>
-          <ion-input label="Tipo de usuario" labelPlacement="floating" placeholder="Ingrese el tipo de usuario" [(ngModel)]="usuarios.usuario_tipo"></ion-input>
-        </ion-item>
-    
-        <ion-item>
-          <ion-input label="Apodo del usuario" labelPlacement="floating" placeholder="Ingrese apodo del usuario" [(ngModel)]="usuarios.usuario_apodo"></ion-input>
-        </ion-item>
-    
-        <ion-item>
-          <ion-input label="Gmail del usuario" labelPlacement="floating" placeholder="Ingresar gmail del usuario"  [(ngModel)]="usuarios.usuario_gmail"></ion-input>
-        </ion-item>
 
         <ion-item>
-          <ion-input label="Contraseña de Usuario" labelPlacement="floating" placeholder="Ingrese la contraseña nueva"  [(ngModel)]="usuarios.usuario_password"></ion-input>
+          <ion-label>Tipo de Usuario</ion-label>
+          <ion-select [(ngModel)]="usuarios.usuario_tipo" placeholder="Seleccionar Tipo" required>
+            <ion-select-option value="admin">Admin</ion-select-option>
+            <ion-select-option value="usuario">Usuario</ion-select-option>
+          </ion-select>
+          <ion-button color="light" shape="round" slot="end" (click)="toggleHelp1()">
+            <ion-icon color="dark" name="information-circle-outline" style="font-size: 30px;"></ion-icon>
+          </ion-button>
         </ion-item>
-    
-        <div class="centrar">
-          <ion-button color="success" (click)="update()">Modificar usuario</ion-button>
+
+        <div *ngIf="showHelp1" class="centrar">
+          <ion-card>
+            <ion-card-header>
+              <ion-card-title>¿Que hago?</ion-card-title>
+            </ion-card-header>
+          
+            <ion-card-content>
+              En este campo debe ingresar entre <strong>"admin" o "usuario"</strong>
+              <br><br>
+              Para mas informacion, presione el boton de ayuda <ion-icon color="warning" name="information-circle-outline"></ion-icon> al final de la pagina.
+            </ion-card-content>
+          </ion-card>  
         </div>
+
+        <ion-item>
+          <ion-input label="Apodo del Usuario" labelPlacement="floating" placeholder="Ingrese apodo del usuario" [(ngModel)]="usuarios.usuario_apodo" required></ion-input>
+          <ion-button color="light" shape="round" slot="end" (click)="toggleHelp2()">
+            <ion-icon color="dark" name="information-circle-outline" style="font-size: 30px;"></ion-icon>
+          </ion-button>
+        </ion-item>
+
+        <div *ngIf="showHelp2" class="centrar">
+          <ion-card>
+            <ion-card-header>
+              <ion-card-title>¿Que hago?</ion-card-title>
+            </ion-card-header>
+          
+            <ion-card-content>
+              En este campo debe ingresar un <strong>"Apodo"</strong> ejemplo:
+              <br><br>
+              <li><strong>JoseArgz8658</strong></li>
+              <br>
+              Para mas informacion, presione el boton de ayuda <ion-icon color="warning" name="information-circle-outline"></ion-icon> al final de la pagina.
+            </ion-card-content>
+          </ion-card>  
+        </div>
+
+        <ion-item>
+          <ion-input label="Gmail del Usuario" labelPlacement="floating" placeholder="ejemplo@gmail.com" [(ngModel)]="usuarios.usuario_gmail" required></ion-input>
+          <ion-button color="light" shape="round" slot="end" (click)="toggleHelp3()">
+            <ion-icon color="dark" name="information-circle-outline" style="font-size: 30px;"></ion-icon>
+          </ion-button>
+        </ion-item>
+
+        <div *ngIf="showHelp3" class="centrar">
+          <ion-card>
+            <ion-card-header>
+              <ion-card-title>¿Que hago?</ion-card-title>
+            </ion-card-header>
+          
+            <ion-card-content>
+              En este campo debe ingresar un <strong>"Gmail"</strong> ejemplo:
+              <br><br>
+              <li><strong>{{ correoExample }}</strong></li>
+              <br>
+              Para mas informacion, presione el boton de ayuda <ion-icon color="warning" name="information-circle-outline"></ion-icon> al final de la pagina.
+            </ion-card-content>
+          </ion-card>  
+        </div>
+
+        <ion-item>
+          <ion-input label="Contraseña de Usuario" labelPlacement="floating" placeholder="Ingrese la contraseña nueva" [(ngModel)]="usuarios.usuario_password" type="password" required></ion-input>
+          <ion-button color="light" shape="round" slot="end" (click)="toggleHelp4()">
+            <ion-icon color="dark" name="information-circle-outline" style="font-size: 30px;"></ion-icon>
+          </ion-button>
+        </ion-item>
+
+        <div *ngIf="showHelp4" class="centrar">
+          <ion-card>
+            <ion-card-header>
+              <ion-card-title>¿Que hago?</ion-card-title>
+            </ion-card-header>
+          
+            <ion-card-content>
+              En este campo debe ingresar un <strong>"Contraseña"</strong> ejemplo:
+              <br><br>
+              <li><strong>Duoc2024!</strong></li>
+              <br>
+              Para mas informacion, presione el boton de ayuda <ion-icon color="warning" name="information-circle-outline"></ion-icon> al final de la pagina.
+            </ion-card-content>
+          </ion-card>  
+        </div>
+
+        <div class="centrar">
+          <ion-button expand="full" color="success" (click)="update()">Modificar Usuario</ion-button>
+        </div>
+
+        <div class="centrar">
+          <ion-button color="light" shape="round" (click)="toggleHelp5()">
+            <ion-icon color="warning" name="information-circle-outline" style="font-size: 30px;"></ion-icon>
+          </ion-button>
+        </div>
+
+        <ion-card *ngIf="showHelp5">
+
+          <ion-card-header class="centrar">
+            <ion-card-title>¿Ayuda?</ion-card-title>
+            <ion-card-subtitle>Requisitos a pensar.</ion-card-subtitle>
+          </ion-card-header>
+        
+          <ion-card-content>
+            <strong>Tipo de usuario:</strong>
+            <ul>
+              <li>Seleccione "Admin" si desea acceso completo al sistema.</li>
+              <li>Seleccione "Usuario" si solo necesita acceso a funciones básicas.</li>
+            </ul>
+            <strong>Apodo:</strong>
+            <ul>
+              <li>Debe ser único y contener entre 4 y 15 caracteres.</li>
+              <li>Solo puede incluir letras (mayúsculas y minúsculas), números y guiones bajos.</li>
+              <li>Ejemplo: "JoseArgz8658"</li>
+            </ul>
+            <strong>Gmail:</strong>
+            <ul>
+              <li>Debe ser una dirección de correo válida (ejemplo: {{ correoExample }}).</li>
+              <li>Verifique que el correo esté correctamente escrito y que sea accesible para recuperar la cuenta si olvida la contraseña.</li>
+            </ul>
+            <strong>Contraseña:</strong>
+            <ul>
+              <li>Debe contener al menos 8 caracteres, con al menos una letra mayúscula, una letra minúscula, un número y un símbolo especial.</li>
+              <li>Ejemplo: "MiContraseña2024!"</li>
+            </ul>
+          </ion-card-content>
+
+        </ion-card>
 
       </ion-card-content>
     </ion-card>
-
   </ion-content>
 </div>

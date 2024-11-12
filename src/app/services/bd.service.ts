@@ -12,14 +12,15 @@ import { Foros } from './foros';
 })
 export class BdService {
   public database!: SQLiteObject;
+
   //Creacion de las tablas
-  tablaBiomas: string = "CREATE TABLE IF NOT EXISTS bioma(bioma_id INTEGER PRIMARY KEY AUTOINCREMENT, minecraft_bioma_id VARCHAR(100) NOT NULL, bioma_nombre VARCHAR(50) NOT NULL, bioma_descripcion TEXT NOT NULL, bioma_image BLOB NOT NULL);";
+  tablaBiomas: string = "CREATE TABLE IF NOT EXISTS bioma(bioma_id INTEGER PRIMARY KEY AUTOINCREMENT, minecraft_bioma_id VARCHAR(100) NOT NULL, bioma_nombre VARCHAR(50) NOT NULL, bioma_descripcion TEXT NOT NULL);";
 
   tablaUsuarios: string = "CREATE TABLE IF NOT EXISTS usuario(usuario_id INTEGER PRIMARY KEY AUTOINCREMENT, usuario_tipo VARCHAR(10) NOT NULL, usuario_apodo VARCHAR(15) NOT NULL UNIQUE, usuario_gmail VARCHAR(100) NOT NULL UNIQUE, usuario_password VARCHAR(100) NOT NULL);";
 
   tablaForos: string = "CREATE TABLE IF NOT EXISTS foro(foro_id INTEGER PRIMARY KEY AUTOINCREMENT, foro_titulo VARCHAR(50) NOT NULL, foro_descripcion TEXT NOT NULL);";
   //Insertar los datos a las tablas
-  registroBioma1: string = "INSERT or IGNORE INTO bioma(bioma_id, minecraft_bioma_id, bioma_nombre, bioma_descripcion) VALUES (1, 'dark_forest', 'Bosque Oscuro', 'Un bioma denso donde los árboles gigantes impiden que la luz solar alcance el suelo, creando áreas oscuras.', ?);";
+  registroBioma1: string = "INSERT or IGNORE INTO bioma(bioma_id, minecraft_bioma_id, bioma_nombre, bioma_descripcion) VALUES (1, 'dark_forest', 'Bosque Oscuro', 'Un bioma denso donde los árboles gigantes impiden que la luz solar alcance el suelo, creando áreas oscuras.');";
 
   //registroBioma2: string = "INSERT or IGNORE INTO bioma(bioma_id, minecraft_bioma_id, bioma_nombre, bioma_descripcion) VALUES (2, 'desert', 'Desierto', 'Un bioma árido con vastas dunas de arena, cactus y muy poca vegetación. Hogar de pirámides y pozos.');";
   
@@ -174,8 +175,7 @@ async presentAlert(titulo:string, msj:string) {
             bioma_id: res.rows.item(i).bioma_id,
             minecraft_bioma_id: res.rows.item(i).minecraft_bioma_id,
             bioma_nombre: res.rows.item(i).bioma_nombre,
-            bioma_descripcion: res.rows.item(i).bioma_descripcion,
-            bioma_image: res.rows.item(i).bioma_image
+            bioma_descripcion: res.rows.item(i).bioma_descripcion
           })
         }
       }
@@ -259,6 +259,25 @@ async presentAlert(titulo:string, msj:string) {
     }).catch(e=>{
       this.presentAlert('Agregar', 'Error: ' + JSON.stringify(e));
     })
+  }
+
+  verificarUsuario(usuario_apodo: string, usuario_password: string): Promise<boolean> {
+    return this.database.executeSql(
+      'SELECT * FROM usuario WHERE usuario_apodo = ? AND usuario_password = ?',
+      [usuario_apodo, usuario_password]
+    ).then(res => {
+      if (res.rows.length > 0) {
+        // Si el usuario existe, retorna true
+        return true;
+      } else {
+        // Si el usuario no existe, muestra un mensaje de alerta y retorna false
+        this.presentAlert('Error', 'Usuario no existe o contraseña incorrecta');
+        return false;
+      }
+    }).catch(e => {
+      this.presentAlert('Error', 'Error en la consulta: ' + JSON.stringify(e));
+      return false;
+    });
   }
 
   //Tabla Foro

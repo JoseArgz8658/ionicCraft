@@ -14,13 +14,12 @@
       <ion-item>
         <ion-card>
           <ion-card-header>
-            <ion-card-title>{{ x.usuario_apodo }}</ion-card-title>
+            <ion-card-title>{{ x.usuario_id }}: {{ x.usuario_apodo }}</ion-card-title>
           </ion-card-header>
     
           <ion-card-content style="word-wrap: break-word; white-space: normal;">
-            <p>Id del Usuario: {{ x.usuario_id }}</p>
             <p>Tipo de Usuario: {{ x.usuario_tipo }}</p>
-            <p>Gmail del Usuario: {{ x.usuario_gmail }}</p>
+            <p>Gmail: {{ x.usuario_gmail }}</p>
           </ion-card-content>
         </ion-card>
       </ion-item>

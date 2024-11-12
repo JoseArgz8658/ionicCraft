@@ -13,7 +13,9 @@
       <ion-card-header class="card-color-fondo-letras">
         <div class="centrar">
           <h2>Buscar Skin de Jugador</h2>
-          <p>Para buscar una skin de jugador, por favor ingrese su NickName o nombre del jugador en el campo que estamos solicitando.</p>
+          Para buscar una skin de jugador, por favor ingrese su NickName o nombre del jugador en el campo que estamos solicitando.
+          <br><br>
+          Si no le carga la skin, vuelva a presionar el boton <strong>Obtener Skin</strong>
         </div>
       </ion-card-header>
       <ion-card-content class="card-color-fondo"><br>
@@ -23,7 +25,9 @@
           <ion-input type="text" [(ngModel)]="nickName" labelPlacement="floating" placeholder="JoseArgz8658" (ionBlur)="validarNickName()">
             <div slot="label">Nombre de jugador</div>
           </ion-input>
-          <ion-icon name="information-circle-outline" slot="end" (click)="toggleHelp()"></ion-icon>
+          <ion-button color="light" shape="round" (click)="toggleHelp()">
+            <ion-icon color="warning" name="information-circle-outline" style="font-size: 30px;"></ion-icon>
+          </ion-button>
         </ion-item>
 
         <div *ngIf="!isNickNameValid">
@@ -58,7 +62,7 @@
         </div>
 
         <div class="centrar">
-          <ion-button (click)="getArmorSkin()">Obtener Skin</ion-button>
+          <ion-button expand="full" (click)="getArmorSkin()">Obtener Skin</ion-button>
         </div>
       </ion-card-content>
     </ion-card>

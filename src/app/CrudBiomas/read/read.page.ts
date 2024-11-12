@@ -13,8 +13,7 @@ export class ReadPage implements OnInit {
       bioma_id: '',
       minecraft_bioma_id: '',
       bioma_nombre: '',
-      bioma_descripcion: '',
-      bioma_image: ''
+      bioma_descripcion: ''
     }
   ]
 
