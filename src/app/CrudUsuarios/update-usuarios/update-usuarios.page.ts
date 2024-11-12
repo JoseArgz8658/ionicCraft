@@ -18,6 +18,7 @@ export class UpdateUsuariosPage implements OnInit {
   showHelp5: boolean = false;
 
   correoExample = "ejemplo@gmail.com";
+  confirmarContrasena: string = '';
 
   constructor(private router: Router, private activedoruter: ActivatedRoute, private bd: BdService, private alertController: AlertController) {
     this.activedoruter.queryParams.subscribe(res => {
@@ -33,7 +34,7 @@ export class UpdateUsuariosPage implements OnInit {
     if (this.validarFormulario()) {
       this.bd.actualizarUsuario(this.usuarios.usuario_id, this.usuarios.usuario_tipo, this.usuarios.usuario_apodo, this.usuarios.usuario_gmail, this.usuarios.usuario_password);
       await this.mostrarConfirmacion('Usuario modificado exitosamente.');
-      this.router.navigate(['/read-usuarios']);
+      this.router.navigate(['/home']);
     } else {
       await this.mostrarError('Por favor, revise los campos e intente nuevamente.');
     }
@@ -68,7 +69,12 @@ export class UpdateUsuariosPage implements OnInit {
       this.mostrarError("La contraseña debe tener al menos 6 caracteres.");
       return false;
     }
-
+  
+    if (this.usuarios.usuario_password !== this.confirmarContrasena) {
+      this.mostrarError("Las contraseñas no coinciden.");
+      return false;
+    }
+  
     return true;
   }
 

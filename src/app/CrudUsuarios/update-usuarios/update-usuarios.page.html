@@ -113,6 +113,10 @@
           </ion-card>  
         </div>
 
+        <ion-item>
+          <ion-input label="Confirmar Contraseña" labelPlacement="floating" placeholder="Reingrese la contraseña" [(ngModel)]="confirmarContrasena" type="password" required></ion-input>
+        </ion-item>
+
         <div class="centrar">
           <ion-button expand="full" color="success" (click)="update()">Modificar Usuario</ion-button>
         </div>
