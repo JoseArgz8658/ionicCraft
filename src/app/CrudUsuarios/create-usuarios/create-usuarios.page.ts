@@ -26,6 +26,8 @@ export class CreateUsuariosPage implements OnInit {
   showHelp5: boolean = false;
   showHelp6: boolean = false;
 
+  isPasswordVisible: boolean = false;
+
   constructor(private bd: BdService, private alertController: AlertController, private router: Router) { }
 
   ngOnInit() { }
@@ -121,5 +123,9 @@ export class CreateUsuariosPage implements OnInit {
 
   toggleHelp6() {
     this.showHelp6 = !this.showHelp6;
+  }
+
+  togglePasswordVisibility() {
+    this.isPasswordVisible = !this.isPasswordVisible;
   }
 }

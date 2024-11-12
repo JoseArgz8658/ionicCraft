@@ -56,19 +56,21 @@ export class CreatePage implements OnInit {
       this.mostrarError("El ID del bioma no es válido. Debe tener solo minúsculas, números y guiones bajos, y no superar los 50 caracteres.");
       return false;
     }
-
-    const nombrePattern = /^[a-zA-Z\s]+$/;
+  
+    // Validación del Nombre del Bioma
+    const nombrePattern = /^[a-zA-Z]+( [a-zA-Z]+)*$/;
     if (!nombrePattern.test(this.bioma_nombre) || this.bioma_nombre.length > 50) {
-      this.mostrarError("El nombre del bioma no es válido. No debe contener números ni caracteres especiales, y no debe superar los 50 caracteres.");
+      this.mostrarError("El nombre del bioma no es válido. No debe contener números ni caracteres especiales, no debe tener espacios al inicio o final, y no debe superar los 50 caracteres.");
       return false;
     }
-
-    const descripcionPattern = /^[a-zA-Z\s]+$/;
+  
+    // Validación de la Descripción del Bioma
+    const descripcionPattern = /^[^\s]+(.*[^\s])?$/;
     if (!descripcionPattern.test(this.bioma_descripcion) || this.bioma_descripcion.length > 300) {
-      this.mostrarError("La descripción del bioma no es válida. No debe contener caracteres especiales, y no debe superar los 300 caracteres.");
+      this.mostrarError("La descripción del bioma no es válida. No debe tener espacios al inicio o final, y no debe superar los 300 caracteres.");
       return false;
     }
-
+  
     return true;
   }
 

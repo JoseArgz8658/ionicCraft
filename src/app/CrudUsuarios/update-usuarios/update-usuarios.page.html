@@ -91,9 +91,13 @@
         </div>
 
         <ion-item>
-          <ion-input label="Contraseña de Usuario" labelPlacement="floating" placeholder="Ingrese la contraseña nueva" [(ngModel)]="usuarios.usuario_password" type="password" required></ion-input>
+          <ion-input label="Contraseña de Usuario" labelPlacement="floating" placeholder="Ingrese la contraseña nueva" [(ngModel)]="usuarios.usuario_password" type="password" required [attr.type]="isPasswordVisible ? 'text' : 'password'"></ion-input>
           <ion-button color="light" shape="round" slot="end" (click)="toggleHelp4()">
             <ion-icon color="dark" name="information-circle-outline" style="font-size: 30px;"></ion-icon>
+          </ion-button>
+
+          <ion-button color="light" shape="round" slot="end" (click)="togglePasswordVisibility()">
+            <ion-icon color="dark" [name]="isPasswordVisible ? 'eye-off-outline' : 'eye-outline'" style="font-size: 30px;"></ion-icon>
           </ion-button>
         </ion-item>
 

@@ -42,7 +42,7 @@
         </div>
 
         <ion-item>
-          <ion-input label="Nombre del Bioma" labelPlacement="floating" placeholder="Mi nuevo Bioma" [(ngModel)]="biomas.bioma_nombre" [attr.pattern]="'^[a-zA-Z\s]+$'" [attr.maxlength]="50" required></ion-input>
+          <ion-input label="Nombre del Bioma" labelPlacement="floating" placeholder="Mi nuevo Bioma" [(ngModel)]="biomas.bioma_nombre" [attr.pattern]="'^[a-zA-Z]+( [a-zA-Z]+)*$'" [attr.maxlength]="50" required></ion-input>
           <ion-button color="light" shape="round" slot="end" (click)="toggleHelp2()">
             <ion-icon color="dark" name="information-circle-outline" style="font-size: 30px;"></ion-icon>
           </ion-button>
@@ -64,7 +64,7 @@
         </div>
 
         <ion-item>
-          <ion-input label="Descripción del Bioma" labelPlacement="floating" placeholder="Este es mi nuevo bioma..." [(ngModel)]="biomas.bioma_descripcion" [attr.pattern]="'^[a-zA-Z\s]+$'" [attr.maxlength]="300" required></ion-input>
+          <ion-input label="Descripción del Bioma" labelPlacement="floating" placeholder="Este es mi nuevo bioma..." [(ngModel)]="biomas.bioma_descripcion" [attr.pattern]="'^[^\\s]+(.*[^\\s])?$'" [attr.maxlength]="300" required></ion-input>
           <ion-button color="light" shape="round" slot="end" (click)="toggleHelp3()">
             <ion-icon color="dark" name="information-circle-outline" style="font-size: 30px;"></ion-icon>
           </ion-button>
