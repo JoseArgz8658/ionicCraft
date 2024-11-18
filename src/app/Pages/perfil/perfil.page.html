@@ -14,20 +14,34 @@
         <ion-title size="large">Perfil</ion-title>
       </ion-toolbar>
     </ion-header>
-
-    <div class="container">
+    
+    <div class="container centrar">
+      <h1>Seccion de Usuario</h1>
       <ion-card>
         <ion-card-header>
-          <ion-button fill="clear" routerLink="/login">
-            <ion-label>Iniciar Sesion</ion-label>
-          </ion-button>
+          <ion-button fill="clear" routerLink="/login">Iniciar Sesion</ion-button>
         </ion-card-header>
       </ion-card>
+      
       <ion-card>
         <ion-card-header>
-          <ion-button fill="clear" routerLink="/create-usuarios">
-            <ion-label>Registrarse</ion-label>
-          </ion-button>
+          <ion-button fill="clear" routerLink="/create-usuarios">Registrarse</ion-button>
+        </ion-card-header>
+      </ion-card>
+    </div>
+    
+
+    <div class="container centrar">
+      <h1>Seccion Cliente</h1>
+      <ion-card>
+        <ion-card-header>
+          <ion-button fill="clear" routerLink="/editar-perfil">Editar Perfil</ion-button>
+        </ion-card-header>
+      </ion-card>
+
+      <ion-card>
+        <ion-card-header>
+          <ion-button fill="clear" (click)="cerrarSesion()">Cerrar Sesión</ion-button>
         </ion-card-header>
       </ion-card>
     </div>

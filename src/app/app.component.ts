@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { MenuController } from '@ionic/angular';
+import { BdService } from 'src/app/services/bd.service';
 
 @Component({
   selector: 'app-root',
@@ -7,12 +8,11 @@ import { MenuController } from '@ionic/angular';
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent {
+  mostrarItem: boolean = false;
   
-  constructor(private menuController: MenuController) { }
+  constructor(private menuController: MenuController, private bd: BdService) { }
 
   ngOnInit() { }
-
-  mostrarItem: boolean = false;
 
   toggleItem() {
     this.mostrarItem = !this.mostrarItem;
