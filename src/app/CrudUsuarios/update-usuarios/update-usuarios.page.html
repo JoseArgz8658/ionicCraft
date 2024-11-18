@@ -91,14 +91,16 @@
         </div>
 
         <ion-item>
-          <ion-input label="Contraseña de Usuario" labelPlacement="floating" placeholder="Ingrese la contraseña nueva" [(ngModel)]="usuarios.usuario_password" type="password" required [attr.type]="isPasswordVisible ? 'text' : 'password'"></ion-input>
+          <ion-input label="Contraseña de Usuario" labelPlacement="floating" placeholder="Ingrese la contraseña nueva" [(ngModel)]="usuarios.usuario_password" type="password" required [attr.type]="isPasswordVisible1 ? 'text' : 'password'"></ion-input>
+
+          <ion-button color="light" shape="round" slot="end" (click)="togglePasswordVisibility1()">
+            <ion-icon color="dark" [name]="isPasswordVisible1 ? 'eye-off-outline' : 'eye-outline'" style="font-size: 30px;"></ion-icon>
+          </ion-button>
+          
           <ion-button color="light" shape="round" slot="end" (click)="toggleHelp4()">
             <ion-icon color="dark" name="information-circle-outline" style="font-size: 30px;"></ion-icon>
           </ion-button>
 
-          <ion-button color="light" shape="round" slot="end" (click)="togglePasswordVisibility()">
-            <ion-icon color="dark" [name]="isPasswordVisible ? 'eye-off-outline' : 'eye-outline'" style="font-size: 30px;"></ion-icon>
-          </ion-button>
         </ion-item>
 
         <div *ngIf="showHelp4" class="centrar">
@@ -118,7 +120,12 @@
         </div>
 
         <ion-item>
-          <ion-input label="Confirmar Contraseña" labelPlacement="floating" placeholder="Reingrese la contraseña" [(ngModel)]="confirmarContrasena" type="password" required></ion-input>
+          <ion-input label="Confirmar Contraseña" labelPlacement="floating" placeholder="Reingrese la contraseña" [(ngModel)]="confirmarContrasena" type="password" required [attr.type]="isPasswordVisible2 ? 'text' : 'password'"></ion-input>
+
+          <ion-button color="light" shape="round" slot="end" (click)="togglePasswordVisibility2()">
+            <ion-icon color="dark" [name]="isPasswordVisible2 ? 'eye-off-outline' : 'eye-outline'" style="font-size: 30px;"></ion-icon>
+          </ion-button>
+
         </ion-item>
 
         <div class="centrar">

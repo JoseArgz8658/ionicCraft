@@ -92,11 +92,18 @@
         </div>
 
         <ion-item>
+
           <ion-icon name="lock-closed-outline"></ion-icon>
-          <ion-input label="Contraseña" labelPlacement="floating" placeholder="Duoc2024!" [(ngModel)]="usuario_password" required type="password" [attr.pattern]="'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{4,99}$'" maxlength="99"></ion-input>
+          <ion-input label="Contraseña" labelPlacement="floating" placeholder="Duoc2024!" [(ngModel)]="usuario_password" required type="password" [attr.pattern]="'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{4,99}$'" maxlength="99" [attr.type]="isPasswordVisible1 ? 'text' : 'password'"></ion-input>
+
+          <ion-button color="light" shape="round" slot="end" (click)="togglePasswordVisibility1()">
+            <ion-icon color="dark" [name]="isPasswordVisible1 ? 'eye-off-outline' : 'eye-outline'" style="font-size: 30px;"></ion-icon>
+          </ion-button>
+
           <ion-button color="light" shape="round" slot="end" (click)="toggleHelp4()">
             <ion-icon color="dark" name="information-circle-outline" style="font-size: 30px;"></ion-icon>
           </ion-button>
+
         </ion-item>
 
         <div *ngIf="showHelp4" class="centrar">
@@ -116,11 +123,18 @@
         </div>
 
         <ion-item>
+
           <ion-icon name="lock-closed-outline"></ion-icon>
-          <ion-input label="Confirmar Contraseña" labelPlacement="floating" placeholder="Duoc2024!" [(ngModel)]="usuario_password_confirmation" required type="password"></ion-input>
+          <ion-input label="Confirmar Contraseña" labelPlacement="floating" placeholder="Duoc2024!" [(ngModel)]="usuario_password_confirmation" required type="password" [attr.type]="isPasswordVisible2 ? 'text' : 'password'"></ion-input>
+
+          <ion-button color="light" shape="round" slot="end" (click)="togglePasswordVisibility2()">
+            <ion-icon color="dark" [name]="isPasswordVisible2 ? 'eye-off-outline' : 'eye-outline'" style="font-size: 30px;"></ion-icon>
+          </ion-button>
+          
           <ion-button color="light" shape="round" slot="end" (click)="toggleHelp5()">
             <ion-icon color="dark" name="information-circle-outline" style="font-size: 30px;"></ion-icon>
           </ion-button>
+
         </ion-item>
 
         <div *ngIf="showHelp5" class="centrar">

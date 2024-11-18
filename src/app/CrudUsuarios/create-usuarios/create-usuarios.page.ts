@@ -26,7 +26,8 @@ export class CreateUsuariosPage implements OnInit {
   showHelp5: boolean = false;
   showHelp6: boolean = false;
 
-  isPasswordVisible: boolean = false;
+  isPasswordVisible1: boolean = false;
+  isPasswordVisible2: boolean = false;
 
   constructor(private bd: BdService, private alertController: AlertController, private router: Router) { }
 
@@ -125,7 +126,11 @@ export class CreateUsuariosPage implements OnInit {
     this.showHelp6 = !this.showHelp6;
   }
 
-  togglePasswordVisibility() {
-    this.isPasswordVisible = !this.isPasswordVisible;
+  togglePasswordVisibility1() {
+    this.isPasswordVisible1 = !this.isPasswordVisible1;
+  }
+
+  togglePasswordVisibility2() {
+    this.isPasswordVisible2 = !this.isPasswordVisible2;
   }
 }

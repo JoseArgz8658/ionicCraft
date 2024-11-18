@@ -16,6 +16,8 @@ export class LoginPage implements OnInit {
   showHelp1: boolean = false;
   showHelp2: boolean = false;
 
+  isPasswordVisible: boolean = false;
+
   constructor(private bd: BdService, private alertController: AlertController, private router: Router) { }
 
   ngOnInit() {}
@@ -45,5 +47,9 @@ export class LoginPage implements OnInit {
       buttons: ['OK']
     });
     await alert.present();
+  }
+
+  togglePasswordVisibility() {
+    this.isPasswordVisible = !this.isPasswordVisible;
   }
 }

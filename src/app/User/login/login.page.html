@@ -51,9 +51,14 @@
 
         <ion-item>
           <ion-icon name="lock-closed-outline"></ion-icon>
-          <ion-input [(ngModel)]="usuario_password" labelPlacement="floating" type="password" placeholder="Contraseña">
+          <ion-input [(ngModel)]="usuario_password" labelPlacement="floating" type="password" placeholder="Contraseña" [attr.type]="isPasswordVisible ? 'text' : 'password'">
             <div slot="label">Contraseña</div>
           </ion-input>
+
+          <ion-button color="light" shape="round" slot="end" (click)="togglePasswordVisibility()">
+            <ion-icon color="dark" [name]="isPasswordVisible ? 'eye-off-outline' : 'eye-outline'" style="font-size: 30px;"></ion-icon>
+          </ion-button>
+
           <ion-button color="light" shape="round" slot="end" (click)="toggleHelp2()">
             <ion-icon color="dark" name="information-circle-outline" style="font-size: 30px;"></ion-icon>
           </ion-button>

@@ -17,7 +17,8 @@ export class UpdateUsuariosPage implements OnInit {
   showHelp4: boolean = false;
   showHelp5: boolean = false;
 
-  isPasswordVisible: boolean = false;
+  isPasswordVisible1: boolean = false;
+  isPasswordVisible2: boolean = false;
 
   correoExample = "ejemplo@gmail.com";
   confirmarContrasena: string = '';
@@ -100,7 +101,11 @@ export class UpdateUsuariosPage implements OnInit {
     this.showHelp5 = !this.showHelp5;
   }
 
-  togglePasswordVisibility() {
-    this.isPasswordVisible = !this.isPasswordVisible;
+  togglePasswordVisibility1() {
+    this.isPasswordVisible1 = !this.isPasswordVisible1;
+  }
+
+  togglePasswordVisibility2() {
+    this.isPasswordVisible2 = !this.isPasswordVisible2;
   }
 }
