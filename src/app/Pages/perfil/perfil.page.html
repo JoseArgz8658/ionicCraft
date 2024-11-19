@@ -19,6 +19,7 @@
       <h1>Seccion Cliente</h1>
       <ion-card>
         <ion-card-header>
+          <h3> {{ usuario.usuario_apodo }} </h3>
           <ion-button fill="clear" routerLink="/editar-perfil">Editar Perfil</ion-button>
         </ion-card-header>
       </ion-card>
@@ -30,20 +31,22 @@
       </ion-card>
     </div>
     
-    <div class="container centrar" #noSesion>
-      <h1>Seccion de Usuario</h1>
-      <ion-card>
-        <ion-card-header>
-          <ion-button fill="clear" routerLink="/login">Iniciar Sesion</ion-button>
-        </ion-card-header>
-      </ion-card>
-      
-      <ion-card>
-        <ion-card-header>
-          <ion-button fill="clear" routerLink="/create-usuarios">Registrarse</ion-button>
-        </ion-card-header>
-      </ion-card>
-    </div>
+    <ng-template #noSesion>
+      <div class="container centrar">
+        <h1>Seccion de Usuario</h1>
+        <ion-card>
+          <ion-card-header>
+            <ion-button fill="clear" routerLink="/login">Iniciar Sesion</ion-button>
+          </ion-card-header>
+        </ion-card>
+        
+        <ion-card>
+          <ion-card-header>
+            <ion-button fill="clear" routerLink="/create-usuarios">Registrarse</ion-button>
+          </ion-card-header>
+        </ion-card>
+      </div>
+    </ng-template>
 
     <div class="container centrar">
       <img src="/assets/ImagesLogos/ionicCraft_logo.png" alt="ionicCraft_logo">
