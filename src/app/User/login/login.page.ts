@@ -23,8 +23,8 @@ export class LoginPage implements OnInit {
   ngOnInit() {}
 
   async iniciarSesion() {
-    const usuarioExiste = await this.bd.verificarUsuario(this.usuario_apodo, this.usuario_password);
-    if (usuarioExiste) {
+    const isValid = await this.bd.verificarUsuario(this.usuario_apodo, this.usuario_password);
+    if (isValid) {
       this.mostrarAlerta('Éxito', 'Inicio de sesión exitoso');
       this.router.navigate(['/perfil']);
     } else {

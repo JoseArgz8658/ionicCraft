@@ -14,24 +14,8 @@
         <ion-title size="large">Perfil</ion-title>
       </ion-toolbar>
     </ion-header>
-    
-    <div class="container centrar">
-      <h1>Seccion de Usuario</h1>
-      <ion-card>
-        <ion-card-header>
-          <ion-button fill="clear" routerLink="/login">Iniciar Sesion</ion-button>
-        </ion-card-header>
-      </ion-card>
-      
-      <ion-card>
-        <ion-card-header>
-          <ion-button fill="clear" routerLink="/create-usuarios">Registrarse</ion-button>
-        </ion-card-header>
-      </ion-card>
-    </div>
-    
 
-    <div class="container centrar">
+    <div class="container centrar" *ngIf="usuario; else noSesion">
       <h1>Seccion Cliente</h1>
       <ion-card>
         <ion-card-header>
@@ -42,6 +26,21 @@
       <ion-card>
         <ion-card-header>
           <ion-button fill="clear" (click)="cerrarSesion()">Cerrar Sesión</ion-button>
+        </ion-card-header>
+      </ion-card>
+    </div>
+    
+    <div class="container centrar" #noSesion>
+      <h1>Seccion de Usuario</h1>
+      <ion-card>
+        <ion-card-header>
+          <ion-button fill="clear" routerLink="/login">Iniciar Sesion</ion-button>
+        </ion-card-header>
+      </ion-card>
+      
+      <ion-card>
+        <ion-card-header>
+          <ion-button fill="clear" routerLink="/create-usuarios">Registrarse</ion-button>
         </ion-card-header>
       </ion-card>
     </div>

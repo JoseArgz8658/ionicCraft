@@ -8,13 +8,17 @@ import { Router } from '@angular/router';
   styleUrls: ['./perfil.page.scss'],
 })
 export class PerfilPage implements OnInit {
-  isLoggedIn: boolean = false;
+  usuario: any = null;
 
   constructor(private bd: BdService, private router: Router) { }
 
-  ngOnInit() {}
+  async ngOnInit() {
+    this.usuario = await this.bd.obtenerUsuarioActivo();
+  }
 
-  cerrarSesion() {
+  async cerrarSesion() {
+    await this.bd.cerrarSesion();
+    this.usuario = null;
     this.router.navigate(['/home']);
   }
 

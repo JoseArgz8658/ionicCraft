@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { SQLite, SQLiteObject } from '@awesome-cordova-plugins/sqlite/ngx';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { AlertController, Platform } from '@ionic/angular';
+import { Storage } from '@ionic/storage-angular';
 
 import { Biomas } from './biomas';
 import { Usuarios } from './usuarios';
@@ -88,7 +89,8 @@ export class BdService {
 
   private isDBReady: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
-  constructor(private sqlite: SQLite, private platform: Platform, private alertController: AlertController) {
+  constructor(private sqlite: SQLite, private platform: Platform, private alertController: AlertController, private storage: Storage) {
+    this.initStorage();
     this.crearBD();
   }
 
@@ -260,17 +262,27 @@ async presentAlert(titulo:string, msj:string) {
       this.presentAlert('Agregar', 'Error: ' + JSON.stringify(e));
     })
   }
+  //INICIO "INICIO SESION"
+  async initStorage() {
+    await this.storage.create();
+  }
 
-  verificarUsuario(usuario_apodo: string, usuario_password: string): Promise<boolean> {
+  async verificarUsuario(usuario_apodo: string, usuario_password: string): Promise<boolean> {
     return this.database.executeSql(
       'SELECT * FROM usuario WHERE usuario_apodo = ? AND usuario_password = ?',
       [usuario_apodo, usuario_password]
-    ).then(res => {
+    ).then(async (res) => {
       if (res.rows.length > 0) {
-        // Si el usuario existe, retorna true
+        const user = {
+          id: res.rows.item(0).usuario_id,
+          tipo: res.rows.item(0).usuario_tipo,
+          apodo: res.rows.item(0).usuario_apodo,
+          gmail: res.rows.item(0).usuario_gmail
+        };
+        // Guardar usuario en el almacenamiento local
+        await this.storage.set('usuario', user);
         return true;
       } else {
-        // Si el usuario no existe, muestra un mensaje de alerta y retorna false
         this.presentAlert('Error', 'Usuario no existe o contraseña incorrecta');
         return false;
       }
@@ -279,6 +291,15 @@ async presentAlert(titulo:string, msj:string) {
       return false;
     });
   }
+
+  async cerrarSesion() {
+    await this.storage.remove('usuario');
+  }
+
+  async obtenerUsuarioActivo() {
+    return await this.storage.get('usuario');
+  }
+  //FIN "INICIO SESION"
 
   //Tabla Foro
   traerForos(){
