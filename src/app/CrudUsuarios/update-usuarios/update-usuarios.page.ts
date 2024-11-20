@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+
 import { BdService } from 'src/app/services/bd.service';
 import { AlertController } from '@ionic/angular';
 
@@ -37,7 +38,7 @@ export class UpdateUsuariosPage implements OnInit {
     if (this.validarFormulario()) {
       this.bd.actualizarUsuario(this.usuarios.usuario_id, this.usuarios.usuario_tipo, this.usuarios.usuario_apodo, this.usuarios.usuario_gmail, this.usuarios.usuario_password);
       await this.mostrarConfirmacion('Usuario modificado exitosamente.');
-      this.router.navigate(['/home']);
+      this.router.navigate(['/read-usuarios']);
     } else {
       await this.mostrarError('Por favor, revise los campos e intente nuevamente.');
     }

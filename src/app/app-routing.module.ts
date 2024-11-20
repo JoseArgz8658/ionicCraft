@@ -69,16 +69,11 @@ const routes: Routes = [
     path: 'cambiar-contra',
     loadChildren: () => import('./User/cambiar-contra/cambiar-contra.module').then( m => m.CambiarContraPageModule)
   },  {
-    path: 'editar-perfil',
-    loadChildren: () => import('./User/editar-perfil/editar-perfil.module').then( m => m.EditarPerfilPageModule)
+    path: 'modificar-perfil',
+    loadChildren: () => import('./User/modificar-perfil/modificar-perfil.module').then( m => m.ModificarPerfilPageModule)
   },
 
-
-
-
-
-
-
+  
 ];
 
 @NgModule({

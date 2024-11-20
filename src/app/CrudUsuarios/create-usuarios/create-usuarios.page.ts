@@ -38,7 +38,7 @@ export class CreateUsuariosPage implements OnInit {
     if (this.validarFormulario()) {
       this.bd.agregarUsuarios(this.usuario_tipo, this.usuario_apodo, this.usuario_gmail, this.usuario_password);
       await this.mostrarConfirmacion('Usuario registrado exitosamente.');
-      this.router.navigate(['/read.usuarios']);
+      this.router.navigate(['/perfil']);
     } else {
       await this.mostrarError('Por favor, revise los campos e intente nuevamente.');
     }

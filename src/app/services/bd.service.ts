@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { SQLite, SQLiteObject } from '@awesome-cordova-plugins/sqlite/ngx';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { AlertController, Platform } from '@ionic/angular';
-import { Storage } from '@ionic/storage-angular';
+import { NativeStorage } from '@awesome-cordova-plugins/native-storage/ngx';
 
 import { Biomas } from './biomas';
 import { Usuarios } from './usuarios';
@@ -89,8 +89,7 @@ export class BdService {
 
   private isDBReady: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
-  constructor(private sqlite: SQLite, private platform: Platform, private alertController: AlertController, private storage: Storage) {
-    this.initStorage();
+  constructor(private sqlite: SQLite, private platform: Platform, private alertController: AlertController, private nativeStorage: NativeStorage) {
     this.crearBD();
   }
 
@@ -248,7 +247,7 @@ async presentAlert(titulo:string, msj:string) {
   actualizarUsuario(usuario_id:string, usuario_tipo:string, usuario_apodo:string, usuario_gmail:string, usuario_password:string){
     return this.database.executeSql('UPDATE usuario SET usuario_tipo = ?, usuario_apodo = ?, usuario_gmail = ?, usuario_password = ? WHERE usuario_id = ?',[usuario_tipo, usuario_apodo, usuario_gmail, usuario_password, usuario_id]).then(res=>{
       this.presentAlert("Modificar", "Usuario Modificado");
-      this.traerBiomas();
+      this.traerUsuarios();
     }).catch(e=>{
       this.presentAlert('Modificar', 'Error: ' + JSON.stringify(e));
     })
@@ -257,30 +256,28 @@ async presentAlert(titulo:string, msj:string) {
   agregarUsuarios(usuario_tipo: string, usuario_apodo:string, usuario_gmail:string, usuario_password:string){
     return this.database.executeSql('INSERT INTO usuario(usuario_tipo, usuario_apodo, usuario_gmail, usuario_password) VALUES (?, ?, ?, ?)',[usuario_tipo, usuario_apodo, usuario_gmail, usuario_password]).then(res=>{
       this.presentAlert("Agregar", "Usuario Agregado");
-      this.traerBiomas();
+      this.traerUsuarios();
     }).catch(e=>{
       this.presentAlert('Agregar', 'Error: ' + JSON.stringify(e));
     })
   }
+  
   //INICIO "INICIO SESION"
-  async initStorage() {
-    await this.storage.create();
-  }
 
-  async verificarUsuario(usuario_apodo: string, usuario_password: string): Promise<boolean> {
-    return this.database.executeSql(
-      'SELECT * FROM usuario WHERE usuario_apodo = ? AND usuario_password = ?',
-      [usuario_apodo, usuario_password]
+  verificarUsuario(usuario_apodo: string, usuario_password: string): Promise<boolean> {
+    return this.database.executeSql('SELECT * FROM usuario WHERE usuario_apodo = ? AND usuario_password = ?', [usuario_apodo, usuario_password]
     ).then(async (res) => {
       if (res.rows.length > 0) {
+
         const user = {
           id: res.rows.item(0).usuario_id,
           tipo: res.rows.item(0).usuario_tipo,
           apodo: res.rows.item(0).usuario_apodo,
-          gmail: res.rows.item(0).usuario_gmail
+          gmail: res.rows.item(0).usuario_gmail,
+          password: res.rows.item(0).usuario_password
         };
-        // Guardar usuario en el almacenamiento local
-        await this.storage.set('usuario', user);
+
+        await this.nativeStorage.setItem('usuario', user);
         return true;
       } else {
         this.presentAlert('Error', 'Usuario no existe o contraseña incorrecta');
@@ -293,11 +290,11 @@ async presentAlert(titulo:string, msj:string) {
   }
 
   async cerrarSesion() {
-    await this.storage.remove('usuario');
+    await this.nativeStorage.remove('usuario');
   }
 
   async obtenerUsuarioActivo() {
-    return await this.storage.get('usuario');
+    return await this.nativeStorage.getItem('usuario');
   }
   //FIN "INICIO SESION"
 

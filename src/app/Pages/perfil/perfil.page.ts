@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { BdService } from 'src/app/services/bd.service';
 import { Router } from '@angular/router';
+
+import { BdService } from 'src/app/services/bd.service';
+import { NativeStorage } from '@awesome-cordova-plugins/native-storage/ngx';
 
 @Component({
   selector: 'app-perfil',
@@ -10,7 +12,7 @@ import { Router } from '@angular/router';
 export class PerfilPage implements OnInit {
   usuario: any = null;
 
-  constructor(private bd: BdService, private router: Router) { }
+  constructor(private bd: BdService, private nativeStorage: NativeStorage, private router: Router) { }
 
   async ngOnInit() {
     this.usuario = await this.bd.obtenerUsuarioActivo();
@@ -19,7 +21,11 @@ export class PerfilPage implements OnInit {
   async cerrarSesion() {
     await this.bd.cerrarSesion();
     this.usuario = null;
-    this.router.navigate(['/home']);
+    this.router.navigate(['/perfil']);
+  }
+
+  refreshPage() {
+    location.reload();
   }
 
 }
