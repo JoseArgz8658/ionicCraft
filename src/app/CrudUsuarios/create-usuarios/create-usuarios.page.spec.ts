@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CreateUsuariosPage } from './create-usuarios.page';
+import { BdService } from 'src/app/services/bd.service';
 
 describe('CreateUsuariosPage', () => {
   let component: CreateUsuariosPage;
