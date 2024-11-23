@@ -338,6 +338,7 @@ async presentAlert(titulo:string, msj:string) {
       }).catch((error) => {
         reject('Error al leer la imagen: ' + error);
       });
+      
     });
   }
 
