@@ -12,23 +12,36 @@ export class CreatePage implements OnInit {
   minecraft_bioma_id: string = "";
   bioma_nombre: string = "";
   bioma_descripcion: string = "";
+  bioma_imagen!: Blob;
 
   showHelp1: boolean = false;
   showHelp2: boolean = false;
   showHelp3: boolean = false;
   showHelp4: boolean = false;
+  showHelp5: boolean = false;
 
   constructor(private bd: BdService, private alertController: AlertController, private router: Router) { }
 
   ngOnInit() {}
 
   async agregar() {
-    if (this.validarFormulario()) {
-      this.bd.agregarBiomas(this.minecraft_bioma_id, this.bioma_nombre, this.bioma_descripcion);
-      await this.mostrarConfirmacion('Bioma modificado exitosamente.');
+    if (this.validarFormulario() && this.bioma_imagen) {
+      this.bd.agregarBiomas(this.minecraft_bioma_id, this.bioma_nombre, this.bioma_descripcion, this.bioma_imagen);
+      await this.mostrarConfirmacion('Bioma creado exitosamente.');
       this.router.navigate(['/read']);
     } else {
-      await this.mostrarError('Por favor, revise los campos e intente nuevamente.');
+      await this.mostrarError('Por favor, revise los campos e intente nuevamente. Asegúrese de seleccionar una imagen.');
+    }
+  }
+
+  onFileSelected(event: any) {
+    const file = event.target.files[0];
+    if (file) {
+      if (file.size > 5 * 1024 * 1024) {
+        this.mostrarError("El archivo seleccionado es demasiado grande. Máximo 5 MB.");
+        return;
+      }
+      this.bioma_imagen = file;
     }
   }
 
@@ -56,21 +69,19 @@ export class CreatePage implements OnInit {
       this.mostrarError("El ID del bioma no es válido. Debe tener solo minúsculas, números y guiones bajos, y no superar los 50 caracteres.");
       return false;
     }
-  
-    // Validación del Nombre del Bioma
+
     const nombrePattern = /^[a-zA-Z]+( [a-zA-Z]+)*$/;
     if (!nombrePattern.test(this.bioma_nombre) || this.bioma_nombre.length > 50) {
-      this.mostrarError("El nombre del bioma no es válido. No debe contener números ni caracteres especiales, no debe tener espacios al inicio o final, y no debe superar los 50 caracteres.");
+      this.mostrarError("El nombre del bioma no es válido.");
       return false;
     }
-  
-    // Validación de la Descripción del Bioma
+
     const descripcionPattern = /^[^\s]+(.*[^\s])?$/;
     if (!descripcionPattern.test(this.bioma_descripcion) || this.bioma_descripcion.length > 300) {
-      this.mostrarError("La descripción del bioma no es válida. No debe tener espacios al inicio o final, y no debe superar los 300 caracteres.");
+      this.mostrarError("La descripción del bioma no es válida.");
       return false;
     }
-  
+
     return true;
   }
 
@@ -88,5 +99,9 @@ export class CreatePage implements OnInit {
 
   toggleHelp4() {
     this.showHelp4 = !this.showHelp4;
+  }
+
+  toggleHelp5() {
+    this.showHelp5 = !this.showHelp5;
   }
 }

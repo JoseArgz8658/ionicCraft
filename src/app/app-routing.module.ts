@@ -47,15 +47,15 @@ const routes: Routes = [
   },
   {
     path: 'read-usuarios',
-    loadChildren: () => import('./crudUsuarios/read-usuarios/read-usuarios.module').then( m => m.ReadUsuariosPageModule)
+    loadChildren: () => import('./CrudUsuarios/read-usuarios/read-usuarios.module').then( m => m.ReadUsuariosPageModule)
   },
   {
     path: 'create-usuarios',
-    loadChildren: () => import('./crudUsuarios/create-usuarios/create-usuarios.module').then( m => m.CreateUsuariosPageModule)
+    loadChildren: () => import('./CrudUsuarios/create-usuarios/create-usuarios.module').then( m => m.CreateUsuariosPageModule)
   },
   {
     path: 'update-usuarios',
-    loadChildren: () => import('./crudUsuarios/update-usuarios/update-usuarios.module').then( m => m.UpdateUsuariosPageModule)
+    loadChildren: () => import('./CrudUsuarios/update-usuarios/update-usuarios.module').then( m => m.UpdateUsuariosPageModule)
   },
   {
     path: 'fotos',
@@ -68,7 +68,8 @@ const routes: Routes = [
   {
     path: 'cambiar-contra',
     loadChildren: () => import('./User/cambiar-contra/cambiar-contra.module').then( m => m.CambiarContraPageModule)
-  },  {
+  },
+  {
     path: 'modificar-perfil',
     loadChildren: () => import('./User/modificar-perfil/modificar-perfil.module').then( m => m.ModificarPerfilPageModule)
   },

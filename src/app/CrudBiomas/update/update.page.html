@@ -85,17 +85,63 @@
           </ion-card>  
         </div>
 
+        <div class="container centrar">
+          <ion-card>
+            <ion-card-header>
+              <ion-card-title>Imagen Guardada</ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+              <img *ngIf="biomas.imagenBioma" [src]="biomas.imagenBioma" alt="Imagen del bioma">
+              <p *ngIf="!biomas.imagenBioma">No hay una imagen guardada para este bioma.</p>
+            </ion-card-content>
+          </ion-card>
+        </div>
+
+        <ion-item>
+          <ion-label position="floating">Imagen del Bioma</ion-label><br>
+          <ion-card>
+            <input type="file" (change)="onFileSelected($event)" accept="image/*" />
+          </ion-card>
+
+          <ion-button color="light" shape="round" slot="end" (click)="toggleHelp4()">
+            <ion-icon color="dark" name="information-circle-outline" style="font-size: 30px;"></ion-icon>
+          </ion-button>
+        </ion-item>
+
+        <div *ngIf="showHelp4" class="centrar">
+          <ion-card>
+            <ion-card-header>
+              <ion-card-title>¿Qué hago?</ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+              Seleccione una imagen representativa del bioma (formatos aceptados: JPG, PNG).
+            </ion-card-content>
+          </ion-card>
+        </div>
+
+        <div class="container centrar">
+          <ion-card>
+            <ion-card-header>
+              <ion-card-title>Previsualización de la Nueva Imagen</ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+              <img *ngIf="previewImageUrl" [src]="previewImageUrl" alt="Previsualización de la nueva imagen">
+              <p *ngIf="!previewImageUrl">No se ha seleccionado una nueva imagen.</p>
+            </ion-card-content>
+          </ion-card>
+        </div>
+
         <div class="centrar">
           <ion-button expand="full" color="success" (click)="update()">Modificar Bioma</ion-button>
         </div>
 
         <div class="centrar">
-          <ion-button color="light" shape="round" (click)="toggleHelp4()">
+          <ion-button color="light" shape="round" (click)="toggleHelp5()">
             <ion-icon color="warning" name="information-circle-outline" style="font-size: 30px;"></ion-icon>
           </ion-button>
         </div>
 
-        <ion-card *ngIf="showHelp4">
+        <ion-card *ngIf="showHelp5">
           <ion-card-header class="centrar">
             <ion-card-title>¿Ayuda?</ion-card-title>
             <ion-card-subtitle>Requisitos a pensar.</ion-card-subtitle>

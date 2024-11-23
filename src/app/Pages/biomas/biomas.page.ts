@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NavigationExtras, Router } from '@angular/router';
+import {  Router } from '@angular/router';
 import { BdService } from 'src/app/services/bd.service';
 
 @Component({
@@ -13,7 +13,8 @@ export class BiomasPage implements OnInit {
       bioma_id: '',
       minecraft_bioma_id: '',
       bioma_nombre: '',
-      bioma_descripcion: ''
+      bioma_descripcion: '',
+      bioma_imagen: ''
     }
   ]
 

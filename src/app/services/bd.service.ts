@@ -3,10 +3,10 @@ import { SQLite, SQLiteObject } from '@awesome-cordova-plugins/sqlite/ngx';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { AlertController, Platform } from '@ionic/angular';
 import { NativeStorage } from '@awesome-cordova-plugins/native-storage/ngx';
+import { File } from '@awesome-cordova-plugins/file/ngx';
 
 import { Biomas } from './biomas';
 import { Usuarios } from './usuarios';
-import { Foros } from './foros';
 
 @Injectable({
   providedIn: 'root'
@@ -15,13 +15,11 @@ export class BdService {
   public database!: SQLiteObject;
 
   //Creacion de las tablas
-  tablaBiomas: string = "CREATE TABLE IF NOT EXISTS bioma(bioma_id INTEGER PRIMARY KEY AUTOINCREMENT, minecraft_bioma_id VARCHAR(100) NOT NULL, bioma_nombre VARCHAR(50) NOT NULL, bioma_descripcion TEXT NOT NULL);";
+  tablaBiomas: string = "CREATE TABLE IF NOT EXISTS bioma(bioma_id INTEGER PRIMARY KEY AUTOINCREMENT, minecraft_bioma_id VARCHAR(100) NOT NULL, bioma_nombre VARCHAR(50) NOT NULL, bioma_descripcion TEXT NOT NULL, bioma_imagen blob NOT NULL);";
 
   tablaUsuarios: string = "CREATE TABLE IF NOT EXISTS usuario(usuario_id INTEGER PRIMARY KEY AUTOINCREMENT, usuario_tipo VARCHAR(10) NOT NULL, usuario_apodo VARCHAR(15) NOT NULL UNIQUE, usuario_gmail VARCHAR(100) NOT NULL UNIQUE, usuario_password VARCHAR(100) NOT NULL);";
-
-  tablaForos: string = "CREATE TABLE IF NOT EXISTS foro(foro_id INTEGER PRIMARY KEY AUTOINCREMENT, foro_titulo VARCHAR(50) NOT NULL, foro_descripcion TEXT NOT NULL);";
   //Insertar los datos a las tablas
-  registroBioma1: string = "INSERT or IGNORE INTO bioma(bioma_id, minecraft_bioma_id, bioma_nombre, bioma_descripcion) VALUES (1, 'dark_forest', 'Bosque Oscuro', 'Un bioma denso donde los árboles gigantes impiden que la luz solar alcance el suelo, creando áreas oscuras.');";
+  //registroBioma1: string = "INSERT or IGNORE INTO bioma(bioma_id, minecraft_bioma_id, bioma_nombre, bioma_descripcion) VALUES (1, 'dark_forest', 'Bosque Oscuro', 'Un bioma denso donde los árboles gigantes impiden que la luz solar alcance el suelo, creando áreas oscuras.');";
 
   //registroBioma2: string = "INSERT or IGNORE INTO bioma(bioma_id, minecraft_bioma_id, bioma_nombre, bioma_descripcion) VALUES (2, 'desert', 'Desierto', 'Un bioma árido con vastas dunas de arena, cactus y muy poca vegetación. Hogar de pirámides y pozos.');";
   
@@ -81,15 +79,12 @@ export class BdService {
   
   registroUsuario2: string = "INSERT OR IGNORE INTO usuario(usuario_id, usuario_tipo, usuario_apodo, usuario_gmail, usuario_password) VALUES ('2', 'usuario', 'JoseArgz', 'jo.aranguiza@gmail.com', 'duoc2024');";
 
-  registroForo1: string = "INSERT OR IGNORE INTO foro(foro_id, foro_titulo, foro_descripcion) VALUES (1, 'Bienvenido al Foro de ionicCraft', 'Este es el foro donde puedes subir tus opiniones a los usuarios en general, disfruta y diviertete en el foro.');";
-
   listaBiomas = new BehaviorSubject([]);
   listaUsuarios = new BehaviorSubject([]);
-  listaForos = new BehaviorSubject([]);
 
   private isDBReady: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
-  constructor(private sqlite: SQLite, private platform: Platform, private alertController: AlertController, private nativeStorage: NativeStorage) {
+  constructor(private sqlite: SQLite, private platform: Platform, private alertController: AlertController, private nativeStorage: NativeStorage, private file: File) {
     this.crearBD();
   }
 
@@ -105,6 +100,7 @@ export class BdService {
         this.database = bd;
         //llamar a la función de creación de tablas
         this.crearTablas();
+        this.crearRegistros();
         this.traerBiomas();
         this.traerUsuarios();
         //cambiar el observable del estado de la base de datos
@@ -115,24 +111,23 @@ export class BdService {
     })
   }
 
-  async crearTablas(){
+  async crearTablas() {
     try{
       await this.database.executeSql(this.tablaBiomas, []);
-
       await this.database.executeSql(this.tablaUsuarios, []);
+    }catch(e){
+      this.presentAlert('CrearTablas()', 'Error: ' + JSON.stringify(e));
+    }
+  }
 
-      await this.database.executeSql(this.tablaForos, []);
-
-      await this.database.executeSql(this.registroBioma1, [])
+  async crearRegistros() {
+    try{
+      await this.registroBioma1();
 
       await this.database.executeSql(this.registroUsuario1, []);
       await this.database.executeSql(this.registroUsuario2, []);
-
-      await this.database.executeSql(this.registroForo1, []);
-
-
-    }catch(e){
-      this.presentAlert('CrearTablas()', 'Error: ' + JSON.stringify(e));
+    } catch(e) {
+    this.presentAlert('crearRegistros()', 'Error: ' + JSON.stringify(e));
     }
   }
 
@@ -142,10 +137,6 @@ export class BdService {
 
   fetchUsuarios(): Observable<Usuarios[]>{
     return this.listaUsuarios.asObservable();
-  }
-
-  fetchForos(): Observable<Foros[]>{
-    return this.listaForos.asObservable();
   }
 
   dbState(){
@@ -162,6 +153,27 @@ async presentAlert(titulo:string, msj:string) {
   await alert.present();
 }
 
+  //Inicio crear Registros de Biomas
+  registroBioma1() {
+    const imagePath = 'ImagesBiomas/bioma_bosque_oscuro.jpg';
+  
+    this.loadImageFromAssets(imagePath).then((imageBlob) => {
+      if (!imageBlob) {
+        this.presentAlert('Error', 'La imagen no pudo ser cargada');
+        return;
+      }
+  
+      this.database.executeSql('INSERT OR IGNORE INTO bioma(minecraft_bioma_id, bioma_nombre, bioma_descripcion, bioma_imagen) VALUES (?, ?, ?, ?)', ['dark_forest', 'Bosque Oscuro', 'Un bioma denso donde los árboles gigantes impiden que la luz solar alcance el suelo, creando áreas oscuras.', imageBlob
+      ]).then(res => {
+        this.presentAlert('Registro1', 'Registro1 Agregado');
+      }).catch(e => {
+        this.presentAlert('Registro1', 'Error: ' + JSON.stringify(e));
+      });
+    }).catch((error) => {
+      this.presentAlert('Error', 'Error al cargar la imagen');
+    });
+  }
+  //Fin crear Registros de Biomas
   //Tabla Biomas
   traerBiomas(){
     return this.database.executeSql('SELECT * FROM bioma',[]).then(res=>{
@@ -176,7 +188,8 @@ async presentAlert(titulo:string, msj:string) {
             bioma_id: res.rows.item(i).bioma_id,
             minecraft_bioma_id: res.rows.item(i).minecraft_bioma_id,
             bioma_nombre: res.rows.item(i).bioma_nombre,
-            bioma_descripcion: res.rows.item(i).bioma_descripcion
+            bioma_descripcion: res.rows.item(i).bioma_descripcion,
+            bioma_imagen: res.rows.item(i).bioma_imagen
           })
         }
       }
@@ -194,8 +207,8 @@ async presentAlert(titulo:string, msj:string) {
     })
   }
 
-  actualizarBioma(bioma_id:string, minecraft_bioma_id:string, bioma_nombre:string, bioma_descripcion:string){
-    return this.database.executeSql('UPDATE bioma SET minecraft_bioma_id = ?, bioma_nombre = ?, bioma_descripcion = ? WHERE bioma_id = ?',[minecraft_bioma_id, bioma_nombre, bioma_descripcion, bioma_id]).then(res=>{
+  actualizarBioma(bioma_id:string, minecraft_bioma_id:string, bioma_nombre:string, bioma_descripcion:string, bioma_imagen:Blob){
+    return this.database.executeSql('UPDATE bioma SET minecraft_bioma_id = ?, bioma_nombre = ?, bioma_descripcion = ?, bioma_imagen = ? WHERE bioma_id = ?',[minecraft_bioma_id, bioma_nombre, bioma_descripcion, bioma_imagen, bioma_id]).then(res=>{
       this.presentAlert("Modificar", "Bioma Modificado");
       this.traerBiomas();
     }).catch(e=>{
@@ -203,8 +216,8 @@ async presentAlert(titulo:string, msj:string) {
     })
   }
 
-  agregarBiomas(minecraft_bioma_id: string, bioma_nombre:string, bioma_descripcion:string){
-    return this.database.executeSql('INSERT INTO bioma(minecraft_bioma_id, bioma_nombre, bioma_descripcion) VALUES (?, ?, ?)',[minecraft_bioma_id, bioma_nombre, bioma_descripcion]).then(res=>{
+  agregarBiomas(minecraft_bioma_id: string, bioma_nombre:string, bioma_descripcion:string, bioma_imagen:Blob){
+    return this.database.executeSql('INSERT INTO bioma(minecraft_bioma_id, bioma_nombre, bioma_descripcion, bioma_imagen) VALUES (?, ?, ?, ?)',[minecraft_bioma_id, bioma_nombre, bioma_descripcion, bioma_imagen]).then(res=>{
       this.presentAlert("Agregar", "Bioma Agregado");
       this.traerBiomas();
     }).catch(e=>{
@@ -298,53 +311,34 @@ async presentAlert(titulo:string, msj:string) {
   }
   //FIN "INICIO SESION"
 
-  //Tabla Foro
-  traerForos(){
-    return this.database.executeSql('SELECT * FROM foro',[]).then(res=>{
-      //variable para almacenar el resultado de la consulta
-      let items: Foros[] = [];
-      //verificar si trae o no registros
-      if(res.rows.length > 0){
-        //recorro los registros
-        for(var i = 0; i < res.rows.length; i++){
-          //agregar el registro a mi variable
-          items.push({
-            foro_id: res.row.item(i).foro_id,
-            foro_titulo: res.row.item(i).foro_titulo,
-            foro_descripcion: res.row.item(i).foro_descripcion
-          })
-        }
+  loadImageFromAssets(imagePath: string): Promise<Blob | null> {
+    return new Promise((resolve, reject) => {
+      const filePath = this.file.applicationDirectory + 'www/assets/' + imagePath;
+  
+      if (!imagePath || !filePath) {
+        reject('Ruta de archivo inválida');
+        return;
       }
-      //actualizo mi observable
-      this.listaForos.next(items as any);
-    })
-  }
-
-  eliminarForo(id:string){
-    return this.database.executeSql('DELETE FROM foro WHERE for_id = ?',[id]).then(res=>{
-      this.presentAlert("Eliminar", "Foro Eliminado");
-      this.traerForos();
-    }).catch(e=>{
-      this.presentAlert('Eliminar', 'Error: ' + JSON.stringify(e));
-    })
-  }
-
-  actualizarForo(foro_id:string, foro_titulo:string, foro_descripcion:string){
-    return this.database.executeSql('UPDATE foro SET foro_titulo = ?, foro_descripcion = ? WHERE foro_id = ?',[foro_titulo, foro_descripcion, foro_id]).then(res=>{
-      this.presentAlert("Modificar", "Foro Modificado");
-      this.traerForos();
-    }).catch(e=>{
-      this.presentAlert('Modificar', 'Error: ' + JSON.stringify(e));
-    })
-  }
-
-  agregarForos(foro_titulo:string, foro_descripcion:string){
-    return this.database.executeSql('INSERT INTO usuario(foro_titulo, foro_descripcion) VALUES (?, ?)',[foro_titulo, foro_descripcion]).then(res=>{
-      this.presentAlert("Agregar", "Foro Agregado");
-      this.traerForos();
-    }).catch(e=>{
-      this.presentAlert('Agregar', 'Error: ' + JSON.stringify(e));
-    })
+  
+      const fileName = imagePath.split('/').pop();
+      if (!fileName) {
+        reject('Nombre de archivo no encontrado');
+        return;
+      }
+  
+      this.file.readAsDataURL(filePath, fileName).then((dataUrl) => {
+        fetch(dataUrl)
+          .then(res => res.blob())
+          .then(blob => {
+            resolve(blob);
+          })
+          .catch(error => {
+            reject('Error al convertir la imagen a Blob: ' + error);
+          });
+      }).catch((error) => {
+        reject('Error al leer la imagen: ' + error);
+      });
+    });
   }
 
 }

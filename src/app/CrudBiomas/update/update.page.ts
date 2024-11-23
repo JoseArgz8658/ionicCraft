@@ -10,11 +10,14 @@ import { AlertController } from '@ionic/angular';
 })
 export class UpdatePage implements OnInit {
   biomas: any;
+  imagenBioma!: Blob;
+  previewImageUrl: string | null = null;
 
   showHelp1: boolean = false;
   showHelp2: boolean = false;
   showHelp3: boolean = false;
   showHelp4: boolean = false;
+  showHelp5: boolean = false;
 
   constructor(private router: Router, private activedoruter: ActivatedRoute, private bd: BdService, private alertController: AlertController) {
     this.activedoruter.queryParams.subscribe(res => {
@@ -28,11 +31,28 @@ export class UpdatePage implements OnInit {
 
   async update() {
     if (this.validarFormulario()) {
-      this.bd.actualizarBioma(this.biomas.bioma_id, this.biomas.minecraft_bioma_id, this.biomas.bioma_nombre, this.biomas.bioma_descripcion);
+      this.bd.actualizarBioma(this.biomas.bioma_id, this.biomas.minecraft_bioma_id, this.biomas.bioma_nombre, this.biomas.bioma_descripcion, this.biomas.bioma_imagen);
       await this.mostrarConfirmacion('Bioma modificado exitosamente.');
       this.router.navigate(['/read']);
     } else {
       await this.mostrarError('Por favor, revise los campos e intente nuevamente.');
+    }
+  }
+
+  onFileSelected(event: any) {
+    const file = event.target.files[0];
+    if (file) {
+      if (file.size > 5 * 1024 * 1024) {
+        this.mostrarError('El archivo seleccionado es demasiado grande. Máximo 5 MB.');
+        return;
+      }
+      this.imagenBioma = file;
+
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.previewImageUrl = reader.result as string;
+      };
+      reader.readAsDataURL(file);
     }
   }
 
@@ -90,5 +110,9 @@ export class UpdatePage implements OnInit {
 
   toggleHelp4() {
     this.showHelp4 = !this.showHelp4;
+  }
+
+  toggleHelp5() {
+    this.showHelp5 = !this.showHelp5;
   }
 }

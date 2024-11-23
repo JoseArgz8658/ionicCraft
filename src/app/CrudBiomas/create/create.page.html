@@ -87,17 +87,38 @@
           </ion-card>  
         </div>
 
+        <ion-item>
+          <ion-label position="floating">Seleccionar imagen</ion-label><br>
+          <ion-card>
+            <input type="file" (change)="onFileSelected($event)" accept="image/*" />
+          </ion-card>
+          <ion-button color="light" shape="round" slot="end" (click)="toggleHelp4()">
+            <ion-icon color="dark" name="information-circle-outline" style="font-size: 30px;"></ion-icon>
+          </ion-button>
+        </ion-item>
+
+        <div *ngIf="showHelp4" class="centrar">
+          <ion-card>
+            <ion-card-header>
+              <ion-card-title>¿Qué hago?</ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+              Seleccione una imagen representativa del bioma (formatos aceptados: JPG, PNG).
+            </ion-card-content>
+          </ion-card>
+        </div>
+
         <div class="centrar">
           <ion-button expand="full" color="success" (click)="agregar()">Agregar Bioma</ion-button>
         </div>
 
         <div class="centrar">
-          <ion-button color="light" shape="round" (click)="toggleHelp4()">
+          <ion-button color="light" shape="round" (click)="toggleHelp5()">
             <ion-icon color="warning" name="information-circle-outline" style="font-size: 30px;"></ion-icon>
           </ion-button>
         </div>
 
-        <ion-card *ngIf="showHelp4">
+        <ion-card *ngIf="showHelp5">
 
           <ion-card-header class="centrar">
             <ion-card-title>¿Ayuda?</ion-card-title>

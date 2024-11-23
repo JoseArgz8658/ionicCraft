@@ -18,6 +18,7 @@
     <ion-item-sliding class="centrar" *ngFor="let x of arregloBiomas" (click)="goBiomaContenido(x)">
       <ion-item>
         <ion-card>
+          {{ x.bioma_imagen }}
           <ion-card-header>
             <ion-card-title>{{ x.bioma_nombre }}</ion-card-title>
           </ion-card-header>
