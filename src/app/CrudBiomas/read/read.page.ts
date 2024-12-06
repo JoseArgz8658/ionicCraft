@@ -8,32 +8,26 @@ import { BdService } from 'src/app/services/bd.service';
   styleUrls: ['./read.page.scss'],
 })
 export class ReadPage implements OnInit {
-  arregloBiomas: any = [
-    {
-      bioma_id: '',
-      minecraft_bioma_id: '',
-      bioma_nombre: '',
-      bioma_descripcion: '',
-      bioma_imagen: ''
-    }
-  ]
+
+  arregloBiomas: any = [ { } ];
 
   constructor(private bd: BdService, private router: Router) { }
 
   ngOnInit() {
-    //pregunto si la base de datos esta lista
-    this.bd.dbState().subscribe(res=>{
-      //verifico si esta lista
-      if(res){
-        //consumir el observable de la lista
-        this.bd.fetchBiomas().subscribe(data=>{
+    this.bd.dbState().subscribe(res => {
+      if (res) {
+        this.bd.fetchBiomas().subscribe(data => {
           this.arregloBiomas = data;
-        })
+        });
       }
-    })
+    });
   }
 
-  update(x:any){
+  createImageUrl(blob: Blob): string {
+    return URL.createObjectURL(blob);
+  }
+
+  update(x: any) {
     let navigationsExtras: NavigationExtras = {
       state: {
         bioma: x
@@ -42,11 +36,11 @@ export class ReadPage implements OnInit {
     this.router.navigate(['/update'], navigationsExtras);
   }
 
-  eliminar(x:any){
+  eliminar(x: any) {
     this.bd.eliminarBioma(x.bioma_id);
   }
 
-  create(){
+  create() {
     this.router.navigate(['/create']);
   }
 

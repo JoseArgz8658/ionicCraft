@@ -16,15 +16,47 @@
     </ion-header>
 
     <div class="container centrar" *ngIf="usuario">
-      <h1>Seccion Cliente</h1>
-      <h3 *ngIf="usuario">Bienvenido {{ usuario.apodo }} </h3>
-      <!-- <ion-card>
+      <h1>Sección Cliente</h1>
+
+      <ion-card>
         <ion-card-header>
-          <ion-button fill="clear">
-            Editar Perfil
+          <ion-title>Editar Perfil: {{ usuario.apodo }}</ion-title>
+          <ion-button fill="clear" (click)="toggleEdit()">
+            {{ editMode ? 'Cancelar' : 'Editar' }}
           </ion-button>
         </ion-card-header>
-      </ion-card> -->
+
+        <ion-card-content *ngIf="editMode">
+          <form (ngSubmit)="actualizarPerfil()">
+            <ion-item>
+              <ion-label position="floating">Apodo</ion-label>
+              <ion-input [(ngModel)]="usuario.apodo" name="apodo" required></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label position="floating">Correo</ion-label>
+              <ion-input [(ngModel)]="usuario.gmail" name="gmail" type="email"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label position="floating">Contraseña</ion-label>
+              <ion-input [(ngModel)]="usuario.password" name="password" [type]="showPassword ? 'text' : 'password'"></ion-input>
+              <ion-button slot="end" fill="clear" (click)="togglePassword()">
+                {{ showPassword ? 'Ocultar' : 'Mostrar' }}
+              </ion-button>
+            </ion-item>
+            <ion-item>
+              <ion-label position="floating">Confirmar Contraseña</ion-label>
+              <ion-input [(ngModel)]="confirmPassword" name="confirmPassword" [type]="showConfirmPassword ? 'text' : 'password'"></ion-input>
+              <ion-button slot="end" fill="clear" (click)="toggleConfirmPassword()">
+                {{ showConfirmPassword ? 'Ocultar' : 'Mostrar' }}
+              </ion-button>
+            </ion-item>
+
+            <ion-button expand="block" type="submit" color="primary" [disabled]="usuario.password !== confirmPassword">
+              Guardar Cambios
+            </ion-button>
+          </form>
+        </ion-card-content>
+      </ion-card>
 
       <ion-card>
         <ion-card-header>
@@ -32,15 +64,15 @@
         </ion-card-header>
       </ion-card>
     </div>
-    
+
     <div class="container centrar" *ngIf="!usuario">
-      <h1>Seccion de Usuario</h1>
+      <h1>Sección de Usuario</h1>
       <ion-card>
         <ion-card-header>
-          <ion-button fill="clear" routerLink="/login">Iniciar Sesion</ion-button>
+          <ion-button fill="clear" routerLink="/login">Iniciar Sesión</ion-button>
         </ion-card-header>
       </ion-card>
-        
+
       <ion-card>
         <ion-card-header>
           <ion-button fill="clear" routerLink="/create-usuarios">Registrarse</ion-button>
@@ -49,7 +81,7 @@
     </div>
 
     <div class="container centrar">
-      <ion-button expand="block" color="warning" (click)="refreshPage()">Actualizar Pagina</ion-button>
+      <ion-button expand="block" color="warning" (click)="refreshPage()">Actualizar Página</ion-button>
     </div>
 
     <div class="container centrar">

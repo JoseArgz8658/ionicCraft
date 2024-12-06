@@ -3,6 +3,9 @@ import { BdService } from 'src/app/services/bd.service';
 import { AlertController } from '@ionic/angular';
 import { Router } from '@angular/router';
 
+import { LocalNotifications } from '@awesome-cordova-plugins/local-notifications/ngx';
+import { Vibration } from '@awesome-cordova-plugins/vibration/ngx';
+
 @Component({
   selector: 'app-create',
   templateUrl: './create.page.html',
@@ -20,13 +23,23 @@ export class CreatePage implements OnInit {
   showHelp4: boolean = false;
   showHelp5: boolean = false;
 
-  constructor(private bd: BdService, private alertController: AlertController, private router: Router) { }
+  constructor(private bd: BdService, private alertController: AlertController, private router: Router, private localNotifications: LocalNotifications, private vibration: Vibration) { }
 
   ngOnInit() {}
 
   async agregar() {
     if (this.validarFormulario() && this.bioma_imagen) {
       this.bd.agregarBiomas(this.minecraft_bioma_id, this.bioma_nombre, this.bioma_descripcion, this.bioma_imagen);
+  
+      this.localNotifications.schedule({
+        id: 1,
+        title: 'Bioma Agregado',
+        text: `¡El bioma "${this.bioma_nombre}" se ha creado exitosamente!`,
+        foreground: true,
+      });
+  
+      this.vibration.vibrate(1000);
+  
       await this.mostrarConfirmacion('Bioma creado exitosamente.');
       this.router.navigate(['/read']);
     } else {

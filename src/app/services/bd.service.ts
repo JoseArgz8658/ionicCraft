@@ -3,7 +3,8 @@ import { SQLite, SQLiteObject } from '@awesome-cordova-plugins/sqlite/ngx';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { AlertController, Platform } from '@ionic/angular';
 import { NativeStorage } from '@awesome-cordova-plugins/native-storage/ngx';
-import { File } from '@awesome-cordova-plugins/file/ngx';
+
+import { ImageService } from 'src/app/services/image.service';
 
 import { Biomas } from './biomas';
 import { Usuarios } from './usuarios';
@@ -84,7 +85,12 @@ export class BdService {
 
   private isDBReady: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
-  constructor(private sqlite: SQLite, private platform: Platform, private alertController: AlertController, private nativeStorage: NativeStorage, private file: File) {
+  public notificaciones = new BehaviorSubject<string | null>(null);
+  enviarNotificacion(mensaje: string) {
+    this.notificaciones.next(mensaje);
+  }
+
+  constructor(private sqlite: SQLite, private platform: Platform, private alertController: AlertController, private nativeStorage: NativeStorage, private imageService: ImageService) {
     this.crearBD();
   }
 
@@ -99,6 +105,7 @@ export class BdService {
         //guardar mi conexion a base de datos
         this.database = bd;
         //llamar a la función de creación de tablas
+        //this.eliminarTablaBiomas();
         this.crearTablas();
         this.crearRegistros();
         this.traerBiomas();
@@ -154,19 +161,17 @@ async presentAlert(titulo:string, msj:string) {
 }
 
   //Inicio crear Registros de Biomas
-  async registroBioma1() {
-    const imagenBase64 = await this.cargarImagenDesdeDirectorio('assets/ImagesBiomas', 'bioma_bosque_oscuro.jpg');
-    if (imagenBase64) {
-      this.database.executeSql(
-        'INSERT OR IGNORE INTO bioma(minecraft_bioma_id, bioma_nombre, bioma_descripcion, bioma_imagen) VALUES (?, ?, ?, ?)',
-        [
-          'dark_forest',
-          'Bosque Oscuro',
-          'Un bioma denso donde los árboles gigantes impiden que la luz solar alcance el suelo, creando áreas oscuras.',
-          imagenBase64
-        ]
-      );
-    }
+  registroBioma1() {
+    const imageUrl = 'assets/ImagesBiomas/bioma_bosque_oscuro.jpg';
+    
+    this.imageService.cargarImagen(imageUrl).subscribe(blob => {
+      this.database.executeSql('INSERT OR IGNORE INTO bioma(bioma_id, minecraft_bioma_id, bioma_nombre, bioma_descripcion, bioma_imagen) VALUES (?, ?, ?, ?, ?)', [1, 'dark_forest', 'Bosque Oscuro', 'Un bioma denso donde los árboles gigantes impiden que la luz solar alcance el suelo, creando áreas oscuras.', blob])
+      .then(() => {
+        //this.presentAlert("Registrado", "Biomas Registrados");
+      }).catch(e => {
+        this.presentAlert('Error', 'No se pudo insertar el bioma: ' + JSON.stringify(e));
+      });
+    });
   }
   //Fin crear Registros de Biomas
   //Tabla Biomas
@@ -215,6 +220,7 @@ async presentAlert(titulo:string, msj:string) {
     return this.database.executeSql('INSERT INTO bioma(minecraft_bioma_id, bioma_nombre, bioma_descripcion, bioma_imagen) VALUES (?, ?, ?, ?)',[minecraft_bioma_id, bioma_nombre, bioma_descripcion, bioma_imagen]).then(res=>{
       this.presentAlert("Agregar", "Bioma Agregado");
       this.traerBiomas();
+      this.enviarNotificacion(`Nuevo bioma creado: ${bioma_nombre}`);
     }).catch(e=>{
       this.presentAlert('Agregar', 'Error: ' + JSON.stringify(e));
     })
@@ -305,21 +311,27 @@ async presentAlert(titulo:string, msj:string) {
     return await this.nativeStorage.getItem('usuario');
   }
   //FIN "INICIO SESION"
-  async cargarImagenDesdeDirectorio(directorio: string, archivo: string): Promise<string | null> {
-    try {
-      // Verifica si el directorio existe
-      const existeDirectorio = await this.file.checkDir(this.file.dataDirectory, directorio);
-      if (!existeDirectorio) {
-        this.presentAlert('Error', 'El directorio no existe.');
-        return null;
-      }
+  async verificarUsuarioPorApodoOCorreo(usuario: string): Promise<boolean> {
+    const res = await this.database.executeSql('SELECT * FROM usuario WHERE usuario_apodo = ? OR usuario_gmail = ?', [usuario, usuario]);
+    return res.rows.length > 0;
+  }
   
-      // Lee el archivo como base64
-      const archivoBase64 = await this.file.readAsDataURL(this.file.dataDirectory + directorio, archivo);
-      return archivoBase64;
-    } catch (err) {
-      this.presentAlert('Error', `No se pudo cargar la imagen: ${JSON.stringify(err)}`);
-      return null;
+  // Cambiar la contraseña del usuario
+  async cambiarContra(usuario: string, nuevaContraseña: string): Promise<void> {
+    const res = await this.database.executeSql('SELECT * FROM usuario WHERE usuario_apodo = ? OR usuario_gmail = ?', [usuario, usuario]);
+    
+    if (res.rows.length > 0) {
+      const usuarioId = res.rows.item(0).usuario_id;
+      await this.database.executeSql('UPDATE usuario SET usuario_password = ? WHERE usuario_id = ?', [nuevaContraseña, usuarioId]);
+    }
+  }
+
+  async eliminarTablaBiomas() {
+    try {
+      await this.database.executeSql('DROP TABLE IF EXISTS bioma', []);
+      console.log("Tabla 'bioma' eliminada.");
+    } catch (e) {
+      console.error("Error al eliminar tabla 'bioma':", e);
     }
   }
 

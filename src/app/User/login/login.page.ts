@@ -52,4 +52,8 @@ export class LoginPage implements OnInit {
   togglePasswordVisibility() {
     this.isPasswordVisible = !this.isPasswordVisible;
   }
+
+  recuperarContra() {
+    this.router.navigate(['/cambiar-contra']);
+  }
 }
