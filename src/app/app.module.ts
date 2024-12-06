@@ -9,9 +9,10 @@ import { AppRoutingModule } from './app-routing.module';
 
 import { NativeStorage } from '@awesome-cordova-plugins/native-storage/ngx';
 import { SQLite } from '@awesome-cordova-plugins/sqlite/ngx';
+import { File } from '@awesome-cordova-plugins/file/ngx';
+
 
 import { HttpClientModule } from '@angular/common/http';
-import { File } from '@awesome-cordova-plugins/file/ngx';
 
 @NgModule({
   declarations: [AppComponent],

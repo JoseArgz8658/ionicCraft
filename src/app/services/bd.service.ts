@@ -154,24 +154,19 @@ async presentAlert(titulo:string, msj:string) {
 }
 
   //Inicio crear Registros de Biomas
-  registroBioma1() {
-    const imagePath = 'ImagesBiomas/bioma_bosque_oscuro.jpg';
-  
-    this.loadImageFromAssets(imagePath).then((imageBlob) => {
-      if (!imageBlob) {
-        this.presentAlert('Error', 'La imagen no pudo ser cargada');
-        return;
-      }
-  
-      this.database.executeSql('INSERT OR IGNORE INTO bioma(minecraft_bioma_id, bioma_nombre, bioma_descripcion, bioma_imagen) VALUES (?, ?, ?, ?)', ['dark_forest', 'Bosque Oscuro', 'Un bioma denso donde los árboles gigantes impiden que la luz solar alcance el suelo, creando áreas oscuras.', imageBlob
-      ]).then(res => {
-        this.presentAlert('Registro1', 'Registro1 Agregado');
-      }).catch(e => {
-        this.presentAlert('Registro1', 'Error: ' + JSON.stringify(e));
-      });
-    }).catch((error) => {
-      this.presentAlert('Error', 'Error al cargar la imagen');
-    });
+  async registroBioma1() {
+    const imagenBase64 = await this.cargarImagenDesdeDirectorio('assets/ImagesBiomas', 'bioma_bosque_oscuro.jpg');
+    if (imagenBase64) {
+      this.database.executeSql(
+        'INSERT OR IGNORE INTO bioma(minecraft_bioma_id, bioma_nombre, bioma_descripcion, bioma_imagen) VALUES (?, ?, ?, ?)',
+        [
+          'dark_forest',
+          'Bosque Oscuro',
+          'Un bioma denso donde los árboles gigantes impiden que la luz solar alcance el suelo, creando áreas oscuras.',
+          imagenBase64
+        ]
+      );
+    }
   }
   //Fin crear Registros de Biomas
   //Tabla Biomas
@@ -310,36 +305,22 @@ async presentAlert(titulo:string, msj:string) {
     return await this.nativeStorage.getItem('usuario');
   }
   //FIN "INICIO SESION"
-
-  loadImageFromAssets(imagePath: string): Promise<Blob | null> {
-    return new Promise((resolve, reject) => {
-      const filePath = this.file.applicationDirectory + 'www/assets/' + imagePath;
-  
-      if (!imagePath || !filePath) {
-        reject('Ruta de archivo inválida');
-        return;
+  async cargarImagenDesdeDirectorio(directorio: string, archivo: string): Promise<string | null> {
+    try {
+      // Verifica si el directorio existe
+      const existeDirectorio = await this.file.checkDir(this.file.dataDirectory, directorio);
+      if (!existeDirectorio) {
+        this.presentAlert('Error', 'El directorio no existe.');
+        return null;
       }
   
-      const fileName = imagePath.split('/').pop();
-      if (!fileName) {
-        reject('Nombre de archivo no encontrado');
-        return;
-      }
-  
-      this.file.readAsDataURL(filePath, fileName).then((dataUrl) => {
-        fetch(dataUrl)
-          .then(res => res.blob())
-          .then(blob => {
-            resolve(blob);
-          })
-          .catch(error => {
-            reject('Error al convertir la imagen a Blob: ' + error);
-          });
-      }).catch((error) => {
-        reject('Error al leer la imagen: ' + error);
-      });
-      
-    });
+      // Lee el archivo como base64
+      const archivoBase64 = await this.file.readAsDataURL(this.file.dataDirectory + directorio, archivo);
+      return archivoBase64;
+    } catch (err) {
+      this.presentAlert('Error', `No se pudo cargar la imagen: ${JSON.stringify(err)}`);
+      return null;
+    }
   }
 
 }
