@@ -4,6 +4,7 @@ import { BdService } from 'src/app/services/bd.service';
 import { Router } from '@angular/router';
 import { SQLite } from '@awesome-cordova-plugins/sqlite/ngx';
 import { NativeStorage } from '@awesome-cordova-plugins/native-storage/ngx';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 class SQLiteMock {
   create() {
@@ -34,6 +35,7 @@ describe('ReadPage', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [ReadPage],
+      imports: [HttpClientTestingModule],
       providers: [
         BdService,
         { provide: SQLite, useClass: SQLiteMock },

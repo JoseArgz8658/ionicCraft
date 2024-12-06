@@ -4,6 +4,8 @@ import { BdService } from 'src/app/services/bd.service';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { of } from 'rxjs';
+import { LocalNotifications } from '@awesome-cordova-plugins/local-notifications/ngx';
+import { Vibration } from '@awesome-cordova-plugins/vibration/ngx';
 
 const mockBdService = {
   agregarBiomas: jasmine.createSpy('agregarBiomas').and.returnValue(of(true)),
@@ -21,6 +23,17 @@ const mockAlertController = {
   }),
 };
 
+// Mock de LocalNotifications
+const mockLocalNotifications = {
+  schedule: jasmine.createSpy('schedule'),
+  cancel: jasmine.createSpy('cancel'),
+};
+
+// Mock de Vibration
+const mockVibration = {
+  vibrate: jasmine.createSpy('vibrate'),
+};
+
 describe('CreatePage', () => {
   let component: CreatePage;
   let fixture: ComponentFixture<CreatePage>;
@@ -32,6 +45,8 @@ describe('CreatePage', () => {
         { provide: BdService, useValue: mockBdService },
         { provide: Router, useValue: mockRouter },
         { provide: AlertController, useValue: mockAlertController },
+        { provide: LocalNotifications, useValue: mockLocalNotifications },
+        { provide: Vibration, useValue: mockVibration },
       ],
     }).compileComponents();
 

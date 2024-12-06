@@ -3,6 +3,7 @@ import { ReadUsuariosPage } from './read-usuarios.page';
 import { BdService } from 'src/app/services/bd.service';
 import { SQLite } from '@awesome-cordova-plugins/sqlite/ngx';
 import { NativeStorage } from '@awesome-cordova-plugins/native-storage/ngx';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 class SQLiteMock {
   create() {
@@ -29,11 +30,12 @@ describe('ReadUsuariosPage', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [ReadUsuariosPage],
+      imports: [HttpClientTestingModule],
       providers: [
         BdService,
         { provide: SQLite, useClass: SQLiteMock },
         { provide: NativeStorage, useClass: NativeStorageMock },
-      ]
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(ReadUsuariosPage);

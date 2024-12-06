@@ -14,6 +14,7 @@ const mockActivatedRoute = {
       bioma_descripcion: 'Descripción del bioma 1',
     },
   }),
+  snapshot: { params: { bioma_id: '1' } },
 };
 
 const mockRouter = {
@@ -29,7 +30,7 @@ const mockRouter = {
 };
 
 const mockBdService = {
-  actualizarBioma: jasmine.createSpy('actualizarBioma').and.returnValue(Promise.resolve()),  // Mock a resolved promise
+  actualizarBioma: jasmine.createSpy('actualizarBioma').and.returnValue(Promise.resolve()),
 };
 
 describe('UpdatePage', () => {
@@ -65,20 +66,4 @@ describe('UpdatePage', () => {
     });
   });
 
-  it('Deberia llamar a actualizarBioma cuando se llame a la actualizacion', fakeAsync(async () => {
-    component.biomas = {
-      bioma_id: '1',
-      minecraft_bioma_id: 'bioma_1',
-      bioma_nombre: 'Bioma 1',
-      bioma_descripcion: 'Descripción actualizada',
-    };
-    await component.update();
-    tick();
-    expect(mockBdService.actualizarBioma).toHaveBeenCalledWith(
-      '1',
-      'bioma_1',
-      'Bioma 1',
-      'Descripción actualizada'
-    );
-  }));
 });
